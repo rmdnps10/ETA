@@ -9,6 +9,16 @@ function Main() {
       console.log(res.data[2].title);
     };
     fetchData();
+
+    fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList")
+        .then((response) => {
+          console.log(`send response ${response}`)
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+
   }, []);
   return (
     <>
