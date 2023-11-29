@@ -16,12 +16,11 @@ function DetailHeader() {
 }
 
 const DetailHeaderWrapper = styled.div`
-    display:flex;
-    gap: 32px;
-    height: 80px;
-    align-items: center;
-    width: 100%;
-
+  display: flex;
+  gap: 32px;
+  height: 80px;
+  align-items: center;
+  width: 100%;
 `;
 
 const BackArrowIcon = styled.img``;
