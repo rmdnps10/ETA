@@ -84,7 +84,7 @@ const InputCheck = styled.input`
   padding: 2px 4px;
   align-items: center;
   border-radius: 100px;
-  background-color: #00608a;
+  background-color: white;
 
   &::before {
     content: "";
@@ -93,7 +93,7 @@ const InputCheck = styled.input`
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: gray;
+    background-color: #dadada;
     transition: left 250ms linear;
   }
   &:checked {
