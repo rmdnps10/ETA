@@ -17,7 +17,7 @@ function MainHeader() {
   );
 }
 
-const StyledHeader = styled.nav`
+export const StyledHeader = styled.nav`
   display: flex;
   height: 80px;
   align-items: center;
