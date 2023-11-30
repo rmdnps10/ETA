@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import subwayIcon from "../../assets/images/subway.svg";
 import radioCheckIcon from "../../assets/images/radiocheck.svg";
@@ -11,14 +11,17 @@ function TransportModal({ isDisplay, setIsDisplay }: ModalProps) {
   };
   const checkHandler = () => {
     setTransport(copyTransport);
+    localStorage.setItem("대중교통", copyTransport);
     setIsDisplay(false);
   };
   const [transport, setTransport] = useRecoilState(선호대중교통);
-  const [copyTransport, setCopyTransport] = useState();
+  const [copyTransport, setCopyTransport] = useState<string>("");
   const onChange = (e: React.ChangeEvent) => {
     setCopyTransport(e.target.defaultValue);
   };
-
+  useEffect(() => {
+    setTransport(localStorage.getItem("대중교통"));
+  });
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>
       <TransportModalContainer>

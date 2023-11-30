@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   ButtonWrapper,
@@ -14,17 +14,22 @@ import { useRecoilState } from "recoil";
 import { 외출준비시간 } from "state/atom";
 function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
   const checkHandler = () => {
-    setPrePareTime(text);
+    setPrepareTime(text);
+    localStorage.setItem("외출준비시간", text);
     setIsDisplay(false);
   };
   const cancelHandler = () => {
     setIsDisplay(false);
   };
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string>("");
   const onTextChange = (e) => {
     setText(e.target.value);
   };
-  const [prepareTime, setPrePareTime] = useRecoilState(외출준비시간);
+  const [prepareTime, setPrepareTime] = useRecoilState(외출준비시간);
+  useEffect(() => {
+    setPrepareTime(JSON.parse(localStorage.getItem("외출준비시간")));
+    setText(JSON.parse(localStorage.getItem("외출준비시간")));
+  }, []);
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>
       <TransportModalContainer>
