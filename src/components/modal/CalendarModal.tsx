@@ -32,6 +32,23 @@ function CalendarModal({ isDisplay, setIsDisplay }: ModalProps) {
         <CalendarItem>
           <Circle />
           <CalendarName>21 UIUX</CalendarName>
+          <CheckLabel htmlFor="check1">
+            <InputCheck id="check1" type="checkbox" />
+          </CheckLabel>
+        </CalendarItem>
+        <CalendarItem>
+          <Circle />
+          <CalendarName>21 UIUX</CalendarName>
+          <CheckLabel htmlFor="check1">
+            <InputCheck id="check1" type="checkbox" />
+          </CheckLabel>
+        </CalendarItem>
+        <CalendarItem>
+          <Circle />
+          <CalendarName>21 UIUX</CalendarName>
+          <CheckLabel htmlFor="check1">
+            <InputCheck id="check1" type="checkbox" />
+          </CheckLabel>
         </CalendarItem>
         <ButtonWrapper>
           <Button onClick={checkHandler}>확인하기</Button>
@@ -53,6 +70,45 @@ const Circle = styled.div`
   height: 24px;
   border-radius: 50%;
   background-color: #137333;
+`;
+
+const CheckLabel = styled.label`
+  margin-left: auto;
+`;
+const InputCheck = styled.input`
+  appearance: none;
+  position: relative;
+  display: flex;
+  width: 52px;
+  height: 32px;
+  padding: 2px 4px;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #00608a;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: gray;
+    transition: left 250ms linear;
+  }
+  &:checked {
+    background-color: #00608a;
+  }
+
+  &:checked::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+  }
 `;
 const CalendarName = styled.div``;
 
