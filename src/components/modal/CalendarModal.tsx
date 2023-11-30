@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Button,
   ButtonWrapper,
@@ -9,18 +9,21 @@ import {
 } from "./TransportModal";
 import calendarIcon from "../../assets/images/calendar.svg";
 import styled from "styled-components";
+import {gapi} from "gapi-script";
 
 export interface ModalProps {
   isDisplay: boolean;
   setIsDisplay: any;
 }
 function CalendarModal({ isDisplay, setIsDisplay }: ModalProps) {
+  // setCalendarList();
   const cancelHandler = () => {
     setIsDisplay(false);
   };
   const checkHandler = () => {
     setIsDisplay(false);
   };
+
   return (
     <TransportModalBox>
       <TransportModalContainer
