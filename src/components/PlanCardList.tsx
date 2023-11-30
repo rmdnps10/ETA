@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import PlanCard from "./PlanCard";
+import {gapi} from "gapi-script";
 
 function PlanCardList() {
-  return (
-    <PlanCardListSection>
-      <PlanCard color="pink" />
-      <PlanCard color="purple" />
-    </PlanCardListSection>
-  );
+
+
+    return (
+        <PlanCardListSection>
+            <PlanCard color="pink"/>
+            <PlanCard color="purple"/>
+        </PlanCardListSection>
+    );
 }
 
 const PlanCardListSection = styled.div`

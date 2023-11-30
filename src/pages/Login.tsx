@@ -13,7 +13,7 @@ function authenticate() {
           function(err) { console.error("Error signing in", err); });
 }
 function loadClient() {
-  gapi.client.setApiKey(process.env.GOOGLE_CLOUD_CALENDAR_API_KEY);
+  gapi.client.setApiKey(process.env.REACT_APP_GOOGLE_CLOUD_CALENDAR_API_KEY);
   return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
       .then(function() { console.log("GAPI client loaded for API"); },
           function(err) { console.error("Error loading GAPI client for API", err); });
@@ -35,7 +35,7 @@ function auth() {
 function Login() {
 
   gapi.load("client:auth2", function() {
-    gapi.auth2.init({client_id: "1008455855486-mu1dmilig6e1o98qam4f0i1v5cfmss55.apps.googleusercontent.com"});
+    gapi.auth2.init({client_id: process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID});
   });
 
 

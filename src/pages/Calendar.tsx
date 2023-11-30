@@ -2,58 +2,118 @@ import React, {useEffect} from "react";
 import {instance} from "../api/axios";
 import {gapi} from "gapi-script";
 
+let calendarList = [];
+let eventList = [];
 
 function Calendar() {
 
-    const CLIENT_ID = process.env.GOOGLE_CLOUD_CLIENT_ID;
-    const API_KEY = process.env.GOOGLE_CLOUD_CALENDAR_API_KEY;
-    const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-    const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
+    gapi.load("client:auth2", function () {
+        gapi.auth2.init({client_id: process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID});
+    });
 
     const getEvents = async () => {
         return new Promise(async (resolve, reject) => {
-            console.log("apiCalendar sign");
+            let timeMin = new Date();
+            let timeMax = new Date();
+            timeMin.setDate(timeMin.getDate() - 1);
+            timeMin.setHours(0, 0, 0, 0);
+            timeMax.setHours(23, 59, 59, 99);
 
-            console.log(new Date());
+            gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
+                .then(() => {
+                    gapi.client?.calendar.calendarList.list({})
+                        .then((response) => {
+                            // Handle the results here (response.result has the parsed body).
+                            let data = response['result']['items'];
+                            calendarList = [];
+                            if (data != null) {
+                                data.forEach(calendar => {
+                                    let isEnabled = true;// 여기에 LocalStorage로 id 넣고 값 받아와서 넣기
+                                    calendarList.push({
+                                        "id": calendar.id,
+                                        "title": calendar.summary,
+                                        "color": calendar.backgroundColor,
+                                        "isEnabled": isEnabled
+                                    });
+                                })
+                                console.log(calendarList);
+                            }
+                        })
+                        .then(() => {
+                            calendarList.forEach(calendar => {
+                                if (calendar.isEnabled) {
+                                    gapi.client.calendar.events.list({
+                                        "calendarId": calendar.id,
+                                        "timeMax": timeMax.toISOString(),
+                                        "timeMin": timeMin.toISOString()
+                                    })
+                                        .then((response) => {
+                                                // Handle the results here (response.result has the parsed body).
+                                                // console.log(response);
+                                                let data = response['result']['items'];
+                                                eventList = [];
+                                                if (data != null) {
+                                                    data.forEach(event => {
+                                                        let url  = "https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?addressFlag=F01" +
+                                                            "&coordType=WGS84GEO&version=1" +
+                                                            "&fullAddr=" + encodeURI(event.location) +
+                                                            "&page=1" +
+                                                            "&count=1";
+                                                        console.log(url);
+                                                        fetch(url, {
+                                                            method: "GET",
+                                                            headers: {
+                                                                'Accept' : 'application/json',
+                                                                'appKey' : process.env.REACT_APP_TMAP_API_KEY,
+                                                            }
+                                                        })
+                                                            .then((response) => {
+                                                                return response.json();
+                                                            })
+                                                            .then((json) => {
+                                                                if (json["coordinateInfo"] != undefined) {
+                                                                    let cor = json["coordinateInfo"]["coordinate"][0];
 
-            gapi.client.calendar.events.list({
-                "calendarId": "ericano.rhee@gmail.com",
-                "timeMax": "2023-11-29T23:59:59Z",
-                "timeMin": "2023-11-29T00:00:00Z"
-            })
-                .then(function(response) {
-                        // Handle the results here (response.result has the parsed body).
-                        console.log("Response", response);
-                    },
-                    function(err) { console.error("Execute error", err); });
+                                                                    eventList.push({
+                                                                        "id": event.id,
+                                                                        "calendar_id": calendar.id,
+                                                                        "title": event.summary,
+                                                                        "description": event.description,
+                                                                        "startDate": event.start.dateTime,
+                                                                        "startTimeZone" : event.start.timeZone,
+                                                                        "endDate" : event.end.dateTime,
+                                                                        "endTimeZone" : event.end.dateTime,
+                                                                        "color": calendar.color,
+                                                                        "eventLocation" : event.location,
+                                                                        "lat": cor["lat"],
+                                                                        "lng": cor["lon"]
+                                                                    });
+                                                                }
+                                                            })
+                                                            .catch((err) => {
+                                                                console.log(err);
+                                                            })
+                                                    })
+                                                }
 
-            gapi.client.calendar.calendarList.list({})
-                .then(function(response) {
-                        // Handle the results here (response.result has the parsed body).
-                        console.log("Response", response);
-                    },
-                    function(err) { console.error("Execute error", err); });
+                                            })
+                                        .then(() => {
+                                           console.log(eventList);
+                                        });
+                                }
+                            })
+                        })
+                        .catch((err) => {
+                            console.error("Execute error", err);
+                        });
 
 
-            // var timeMax = new Date();
-            // timeMax.setDate(timeMax.getDate() + 10)
-            // ApiCalendar.listEvents({
-            //     timeMin: new Date().toISOString(),
-            //     timeMax: timeMax.toISOString(),
-            //     showDeleted: true,
-            //     maxResults: 10,
-            //     orderBy: "updated"
-            // }).then(({ result }) => {
-            //     if (result.items) {
-            //         console.log("Events From Calendar", result.items);
-            //     } else {
-            //         console.log("No Events");
-            //     }
-            //
-            //     resolve(result);
-            // });
-        })
+                });
+
+
+        });
     }
+    console.log(process.env.REACT_APP_TMAP_API_KEY);
 
 
     useEffect(() => {

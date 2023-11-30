@@ -21,9 +21,8 @@ const SettingList = () => {
       try {
         await new Promise((resolve) => gapi.load("client:auth2", resolve));
 
-        gapi.auth2.init({
-          client_id:
-            "1008455855486-mu1dmilig6e1o98qam4f0i1v5cfmss55.apps.googleusercontent.com",
+        gapi.auth2.init({client_id:
+            process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID,
         });
 
         await gapi.client.load(
