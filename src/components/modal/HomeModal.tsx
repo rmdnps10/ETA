@@ -7,7 +7,6 @@ import {
   TransportModalBox,
   TransportModalContainer,
 } from "./TransportModal";
-
 import homeIcon from "../../assets/images/home.svg";
 import { ModalProps } from "./CalendarModal";
 function HomeModal({ isDisplay, setIsDisplay }: ModalProps) {
@@ -26,7 +25,6 @@ function HomeModal({ isDisplay, setIsDisplay }: ModalProps) {
           <Button onClick={checkHandler}>확인하기</Button>
           <Button onClick={cancelHandler}>취소하기</Button>
         </ButtonWrapper>
-      
       </TransportModalContainer>
     </TransportModalBox>
   );

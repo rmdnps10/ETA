@@ -13,7 +13,7 @@ function PlanCard({ color }: PlanCardProps) {
   const navigate = useNavigate();
   const [isTurnOn, setIsTurnOn] = useState(false);
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    if (e.target.tagName == "IMG") {
+    if (e.target.tagName === "IMG") {
       setIsTurnOn(!isTurnOn);
       return;
     }

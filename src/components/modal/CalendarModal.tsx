@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {
   Button,
   ButtonWrapper,
@@ -8,18 +8,24 @@ import {
   TransportModalContainer,
 } from "./TransportModal";
 import calendarIcon from "../../assets/images/calendar.svg";
-import styled from "styled-components";
-import {gapi} from "gapi-script";
+import CalendarModalItem, {
+  NullableCalendarModalItem,
+} from "./CalendarModalItem";
 
 export interface ModalProps {
   isDisplay: boolean;
   setIsDisplay: any;
 }
-function CalendarModal({ isDisplay, setIsDisplay }: ModalProps) {
-  // setCalendarList();
-  const cancelHandler = () => {
-    setIsDisplay(false);
-  };
+export interface CalendarModalProps {
+  isDisplay: boolean;
+  setIsDisplay: any;
+  calendarList: NullableCalendarModalItem[];
+}
+function CalendarModal({
+  isDisplay,
+  setIsDisplay,
+  calendarList,
+}: CalendarModalProps) {
   const checkHandler = () => {
     setIsDisplay(false);
   };
@@ -32,88 +38,16 @@ function CalendarModal({ isDisplay, setIsDisplay }: ModalProps) {
         <Icon src={calendarIcon} />
         <Label>달력 선택</Label>
 
-        <CalendarItem>
-          <Circle />
-          <CalendarName>21 UIUX</CalendarName>
-          <CheckLabel htmlFor="check1">
-            <InputCheck id="check1" type="checkbox" />
-          </CheckLabel>
-        </CalendarItem>
-        <CalendarItem>
-          <Circle />
-          <CalendarName>21 UIUX</CalendarName>
-          <CheckLabel htmlFor="check1">
-            <InputCheck id="check1" type="checkbox" />
-          </CheckLabel>
-        </CalendarItem>
-        <CalendarItem>
-          <Circle />
-          <CalendarName>21 UIUX</CalendarName>
-          <CheckLabel htmlFor="check1">
-            <InputCheck id="check1" type="checkbox" />
-          </CheckLabel>
-        </CalendarItem>
+        {calendarList.map((item: NullableCalendarModalItem) => (
+          <CalendarModalItem key={item?.id} calendarItem={item} />
+        ))}
+
         <ButtonWrapper>
-          <Button onClick={checkHandler}>확인하기</Button>
-          <Button onClick={cancelHandler}>취소하기</Button>
+          <Button onClick={checkHandler}>설정하기</Button>
         </ButtonWrapper>
       </TransportModalContainer>
     </TransportModalBox>
   );
 }
-
-const CalendarItem = styled.div`
-  width: 80%;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-`;
-const Circle = styled.div`
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #137333;
-`;
-
-const CheckLabel = styled.label`
-  margin-left: auto;
-`;
-const InputCheck = styled.input`
-  appearance: none;
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  width: 52px;
-  height: 32px;
-  padding: 2px 4px;
-  align-items: center;
-  border-radius: 100px;
-  background-color: white;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 5px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #dadada;
-    transition: left 250ms linear;
-  }
-  &:checked {
-    background-color: #00608a;
-  }
-
-  &:checked::before {
-    content: "";
-    position: absolute;
-    left: 24px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: white;
-  }
-`;
-const CalendarName = styled.div``;
 
 export default CalendarModal;

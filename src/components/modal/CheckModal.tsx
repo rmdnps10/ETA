@@ -10,7 +10,7 @@ import {
 import checkIcon from "../../assets/images/checkRoom.svg";
 import styled from "styled-components";
 import { ModalProps } from "./CalendarModal";
-function CheckModal({ isDisplay, setIsDisplay } : ModalProps) {
+function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
   const checkHandler = () => {
     setIsDisplay(false);
   };
@@ -60,7 +60,5 @@ const FirstInput = styled.input.attrs({ type: "text", maxLength: 2 })`
 const DivideIndex = styled.div`
   font-size: 50px;
 `;
-
-const SecondInput = styled(FirstInput)``;
 
 export default CheckModal;

@@ -9,7 +9,6 @@ interface SettingModalProps {
 function SettingModal({ isDisplay }: SettingModalProps) {
   const navigate = useNavigate();
   const goSettings = () => {
-    console.log("클릭");
     navigate("/settings");
   };
   return (
