@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {instance} from "../api/axios";
-import ApiCalendar from "react-google-calendar-api";
 import {gapi} from "gapi-script";
 
 
@@ -13,51 +12,46 @@ function Calendar() {
 
     const getEvents = async () => {
         return new Promise(async (resolve, reject) => {
-            if (ApiCalendar.sign) {
-                console.log("apiCalendar sign");
+            console.log("apiCalendar sign");
 
-                gapi.client.calendar.events.list({
-                    "calendarId": "ericano.rhee@gmail.com",
-                    "timeMax": "2023-11-29T23:59:59Z",
-                    "timeMin": "2023-11-29T00:00:00Z"
-                })
-                    .then(function(response) {
-                            // Handle the results here (response.result has the parsed body).
-                            console.log("Response", response);
-                        },
-                        function(err) { console.error("Execute error", err); });
+            console.log(new Date());
 
-                gapi.client.calendar.calendarList.list({})
-                    .then(function(response) {
-                            // Handle the results here (response.result has the parsed body).
-                            console.log("Response", response);
-                        },
-                        function(err) { console.error("Execute error", err); });
+            gapi.client.calendar.events.list({
+                "calendarId": "ericano.rhee@gmail.com",
+                "timeMax": "2023-11-29T23:59:59Z",
+                "timeMin": "2023-11-29T00:00:00Z"
+            })
+                .then(function(response) {
+                        // Handle the results here (response.result has the parsed body).
+                        console.log("Response", response);
+                    },
+                    function(err) { console.error("Execute error", err); });
+
+            gapi.client.calendar.calendarList.list({})
+                .then(function(response) {
+                        // Handle the results here (response.result has the parsed body).
+                        console.log("Response", response);
+                    },
+                    function(err) { console.error("Execute error", err); });
 
 
-                // var timeMax = new Date();
-                // timeMax.setDate(timeMax.getDate() + 10)
-                // ApiCalendar.listEvents({
-                //     timeMin: new Date().toISOString(),
-                //     timeMax: timeMax.toISOString(),
-                //     showDeleted: true,
-                //     maxResults: 10,
-                //     orderBy: "updated"
-                // }).then(({ result }) => {
-                //     if (result.items) {
-                //         console.log("Events From Calendar", result.items);
-                //     } else {
-                //         console.log("No Events");
-                //     }
-                //
-                //     resolve(result);
-                // });
-
-            } else {
-                console.log("apiCalendar not sign");
-                ApiCalendar.handleAuthClick();
-                resolve(null);
-            }
+            // var timeMax = new Date();
+            // timeMax.setDate(timeMax.getDate() + 10)
+            // ApiCalendar.listEvents({
+            //     timeMin: new Date().toISOString(),
+            //     timeMax: timeMax.toISOString(),
+            //     showDeleted: true,
+            //     maxResults: 10,
+            //     orderBy: "updated"
+            // }).then(({ result }) => {
+            //     if (result.items) {
+            //         console.log("Events From Calendar", result.items);
+            //     } else {
+            //         console.log("No Events");
+            //     }
+            //
+            //     resolve(result);
+            // });
         })
     }
 
