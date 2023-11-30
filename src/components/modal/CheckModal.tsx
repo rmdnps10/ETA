@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonWrapper,
@@ -10,20 +10,28 @@ import {
 import checkIcon from "../../assets/images/checkRoom.svg";
 import styled from "styled-components";
 import { ModalProps } from "./CalendarModal";
+import { useRecoilState } from "recoil";
+import { 외출준비시간 } from "state/atom";
 function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
   const checkHandler = () => {
+    setPrePareTime(text);
     setIsDisplay(false);
   };
   const cancelHandler = () => {
     setIsDisplay(false);
   };
+  const [text, setText] = useState("");
+  const onTextChange = (e) => {
+    setText(e.target.value);
+  };
+  const [prepareTime, setPrePareTime] = useRecoilState(외출준비시간);
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>
       <TransportModalContainer>
         <Icon src={checkIcon} />
         <Label>외출 준비 시간 설정</Label>
         <InputContainer>
-          <FirstInput />
+          <FirstInput value={text} onChange={onTextChange} />
           <DivideIndex>분</DivideIndex>
         </InputContainer>
         <ButtonWrapper>

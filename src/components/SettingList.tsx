@@ -9,6 +9,8 @@ import CheckModal from "./modal/CheckModal";
 import CalendarModal from "./modal/CalendarModal";
 import HomeModal from "./modal/HomeModal";
 import { NullableCalendarModalItem } from "./modal/CalendarModalItem";
+import { useRecoilValue } from "recoil";
+import { 선호대중교통, 외출준비시간, 집주소 } from "state/atom";
 
 interface SettingListProps {
   calendarList: NullableCalendarModalItem[];
@@ -22,30 +24,30 @@ const SettingList = ({ calendarList }: SettingListProps) => {
   const handleItemClick = (modalSetter: (value: boolean) => void) => {
     modalSetter(true);
   };
-
+  const homeAddress = useRecoilValue(집주소);
+  const preferTransport = useRecoilValue(선호대중교통);
+  const prepareTime = useRecoilValue(외출준비시간);
   return (
     <SettingListWrapper>
       <SettingItem onClick={() => handleItemClick(setShowHome)}>
         <Icon src={homeIcon} />
         <SettingDescription>
           <SettingName>집 주소</SettingName>
-          <SettingSelection>
-            서울특별시 마포구 신수동 1-1 서강대학교 하비에르관
-          </SettingSelection>
+          <SettingSelection>{homeAddress}</SettingSelection>
         </SettingDescription>
       </SettingItem>
       <SettingItem onClick={() => handleItemClick(setShowTransport)}>
         <Icon src={subwayIcon} />
         <SettingDescription>
           <SettingName>선호 대중교통</SettingName>
-          <SettingSelection>지하철</SettingSelection>
+          <SettingSelection>{preferTransport}</SettingSelection>
         </SettingDescription>
       </SettingItem>
       <SettingItem onClick={() => handleItemClick(setShowCheck)}>
         <Icon src={checkRoomIcon} />
         <SettingDescription>
           <SettingName>외출 준비 시간</SettingName>
-          <SettingSelection>50분</SettingSelection>
+          <SettingSelection>{prepareTime}분</SettingSelection>
         </SettingDescription>
       </SettingItem>
       <SettingItem

@@ -1,30 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import subwayIcon from "../../assets/images/subway.svg";
 import radioCheckIcon from "../../assets/images/radiocheck.svg";
 import { ModalProps } from "./CalendarModal";
+import { useRecoilState } from "recoil";
+import { 선호대중교통 } from "state/atom";
 function TransportModal({ isDisplay, setIsDisplay }: ModalProps) {
   const cancelHandler = () => {
     setIsDisplay(false);
   };
   const checkHandler = () => {
+    setTransport(copyTransport);
     setIsDisplay(false);
   };
+  const [transport, setTransport] = useRecoilState(선호대중교통);
+  const [copyTransport, setCopyTransport] = useState();
+  const onChange = (e: React.ChangeEvent) => {
+    setCopyTransport(e.target.defaultValue);
+  };
+
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>
       <TransportModalContainer>
         <Icon src={subwayIcon} />
         <Label>선호 대중교통</Label>
         <StyledLabel htmlFor="transport">
-          <Input name="transport" value="walk" />
+          <Input name="transport" value="도보" onChange={onChange} />
           도보
         </StyledLabel>
         <StyledLabel htmlFor="transport">
-          <Input name="transport" value="subway" />
+          <Input name="transport" value="지하철" onChange={onChange} />
           지하철
         </StyledLabel>
         <StyledLabel htmlFor="transport">
-          <Input name="transport" value="bus" />
+          <Input name="transport" value="버스" onChange={onChange} />
           버스
         </StyledLabel>
 
