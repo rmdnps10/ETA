@@ -1,0 +1,59 @@
+import React from "react";
+import {
+  Button,
+  ButtonWrapper,
+  Icon,
+  Label,
+  TransportModalBox,
+  TransportModalContainer,
+} from "./TransportModal";
+import calendarIcon from "../../assets/images/calendar.svg";
+import styled from "styled-components";
+
+export interface ModalProps {
+  isDisplay: boolean;
+  setIsDisplay: any;
+}
+function CalendarModal({ isDisplay, setIsDisplay }: ModalProps) {
+  const cancelHandler = () => {
+    setIsDisplay(false);
+  };
+  const checkHandler = () => {
+    setIsDisplay(false);
+  };
+  return (
+    <TransportModalBox>
+      <TransportModalContainer
+        style={{ display: `${isDisplay ? "flex" : "none"}` }}
+      >
+        <Icon src={calendarIcon} />
+        <Label>달력 선택</Label>
+
+        <CalendarItem>
+          <Circle />
+          <CalendarName>21 UIUX</CalendarName>
+        </CalendarItem>
+        <ButtonWrapper>
+          <Button onClick={checkHandler}>확인하기</Button>
+          <Button onClick={cancelHandler}>취소하기</Button>
+        </ButtonWrapper>
+      </TransportModalContainer>
+    </TransportModalBox>
+  );
+}
+
+const CalendarItem = styled.div`
+  width: 80%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+`;
+const Circle = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #137333;
+`;
+const CalendarName = styled.div``;
+
+export default CalendarModal;

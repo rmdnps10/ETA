@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import homeIcon from "../assets/images/home.svg";
 import subwayIcon from "../assets/images/subway.svg";
 import checkRoomIcon from "../assets/images/checkRoom.svg";
 import calendarIcon from "../assets/images/calendar.svg";
+import TransportModal from "./modal/TransportModal";
+import CheckModal from "./modal/CheckModal";
+import CalendarModal from "./modal/CalendarModal";
+import HomeModal from "./modal/HomeModal";
 function SettingList() {
+  const [showHome, setShowHome] = useState(false);
+  const [showTransport, setShowTransport] = useState(false);
+  const [showCheck, setShowCheck] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
   return (
     <SettingListWrapper>
-      <SettingItem>
+      <SettingItem
+        onClick={() => {
+          setShowHome(true);
+        }}
+      >
         <Icon src={homeIcon} />
         <SettingDescription>
           <SettingName>집 주소</SettingName>
@@ -16,27 +29,46 @@ function SettingList() {
           </SettingSelection>
         </SettingDescription>
       </SettingItem>
-      <SettingItem>
+      <SettingItem
+        onClick={() => {
+          setShowTransport(true);
+        }}
+      >
         <Icon src={subwayIcon} />
         <SettingDescription>
           <SettingName>선호 대중교통</SettingName>
           <SettingSelection>지하철</SettingSelection>
         </SettingDescription>
       </SettingItem>{" "}
-      <SettingItem>
+      <SettingItem
+        onClick={() => {
+          setShowCheck(true);
+        }}
+      >
         <Icon src={checkRoomIcon} />
         <SettingDescription>
           <SettingName>외출 준비 시간</SettingName>
           <SettingSelection>50분</SettingSelection>
         </SettingDescription>
       </SettingItem>{" "}
-      <SettingItem>
+      <SettingItem
+        onClick={() => {
+          setShowCalendar(true);
+        }}
+      >
         <Icon src={calendarIcon} />
         <SettingDescription>
           <SettingName>캘린더 알람 달력 출처</SettingName>
           <SettingSelection>달력 선택..</SettingSelection>
         </SettingDescription>
       </SettingItem>
+      <HomeModal isDisplay={showHome} setIsDisplay={setShowHome} />
+      <TransportModal
+        isDisplay={showTransport}
+        setIsDisplay={setShowTransport}
+      />
+      <CheckModal isDisplay={showCheck} setIsDisplay={setShowCheck} />
+      <CalendarModal isDisplay={showCalendar} setIsDisplay={setShowCalendar} />
     </SettingListWrapper>
   );
 }
@@ -75,6 +107,7 @@ const SettingItem = styled.div`
   padding: 24px;
   display: flex;
   gap: 24px;
+  cursor: pointer;
 `;
 
 export default SettingList;

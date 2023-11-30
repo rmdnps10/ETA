@@ -26,6 +26,7 @@ function App() {
 // 고정형
 const AppContainer = styled.div`
   width: 60%;
+  position: relative;
   margin: 0 auto;
 `;
 

@@ -21,7 +21,7 @@ function SettingHeader() {
 const SettingHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 20px;
   height: 80px;
 `;
 const BackArrowIcon = styled.img`
