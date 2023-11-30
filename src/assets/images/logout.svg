@@ -1,0 +1,12 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Login" clip-path="url(#clip0_128_44)">
+<g id="Group">
+<path id="Vector" d="M7.3 16.3C7.7 15.9 7.7 15.3 7.3 14.9L5.4 13H14.6C15.2 13 15.6 12.6 15.6 12C15.6 11.4 15.2 11 14.6 11H5.4L7.3 9.1C7.7 8.7 7.7 8.1 7.3 7.7C6.9 7.3 6.3 7.3 5.9 7.7L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L5.9 16.3C6.3 16.7 6.9 16.7 7.3 16.3ZM20 19H13C12.4 19 12 19.5 12 20C12 20.5 12.4 21 13 21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3H13C12.4 3 12 3.4 12 4C12 4.6 12.4 5 13 5H20V19Z" fill="black"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_128_44">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

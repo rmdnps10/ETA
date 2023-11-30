@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import mainIcon from "../assets/images/ETAIcon.svg";
+import SettingModal from "./SettingModal";
 function MainHeader() {
+  const [isDisplayModal, setIsDisPlayModal] = useState(false);
+  const toggleDiplay = (e: React.MouseEvent) => {
+    setIsDisPlayModal(!isDisplayModal);
+  };
+
   return (
     <StyledHeader>
       <CurrentDate>November 14, 2023</CurrentDate>
-      <MainIcon src={mainIcon} />
+      <MainIcon src={mainIcon} onClick={toggleDiplay} />
+      <SettingModal isDisplay={isDisplayModal} />
     </StyledHeader>
   );
 }
@@ -15,6 +22,7 @@ const StyledHeader = styled.nav`
   height: 80px;
   align-items: center;
   width: 100%;
+  position: relative;
 `;
 const CurrentDate = styled.div`
   color: #32283e;
@@ -25,5 +33,6 @@ const CurrentDate = styled.div`
 `;
 const MainIcon = styled.img`
   margin-left: auto;
+  cursor: pointer;
 `;
 export default MainHeader;
