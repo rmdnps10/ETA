@@ -77,6 +77,7 @@ const CheckLabel = styled.label`
 `;
 const InputCheck = styled.input`
   appearance: none;
+  cursor: pointer;
   position: relative;
   display: flex;
   width: 52px;

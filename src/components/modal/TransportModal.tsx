@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import subwayIcon from "../../assets/images/subway.svg";
+import radioCheckIcon from "../../assets/images/radiocheck.svg";
 import { ModalProps } from "./CalendarModal";
 function TransportModal({ isDisplay, setIsDisplay }: ModalProps) {
   const cancelHandler = () => {
@@ -14,16 +15,16 @@ function TransportModal({ isDisplay, setIsDisplay }: ModalProps) {
       <TransportModalContainer>
         <Icon src={subwayIcon} />
         <Label>선호 대중교통</Label>
-        <StyledLabel>
-          <Input />
+        <StyledLabel htmlFor="transport">
+          <Input name="transport" value="walk" />
           도보
         </StyledLabel>
-        <StyledLabel>
-          <Input />
+        <StyledLabel htmlFor="transport">
+          <Input name="transport" value="subway" />
           지하철
         </StyledLabel>
-        <StyledLabel>
-          <Input />
+        <StyledLabel htmlFor="transport">
+          <Input name="transport" value="bus" />
           버스
         </StyledLabel>
 
@@ -67,7 +68,7 @@ export const Label = styled.div`
   line-height: normal;
 `;
 
-const StyledLabel = styled.div`
+const StyledLabel = styled.label`
   color: #000;
   font-family: Pretendard;
   font-size: 16px;
@@ -75,10 +76,22 @@ const StyledLabel = styled.div`
   font-weight: 400;
   line-height: normal;
   width: 86%;
+  display: flex;
+  align-items: center;
 `;
 
 const Input = styled.input.attrs({ type: "radio" })`
   margin-right: 10px;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  border: 2px solid #49454f;
+  cursor: pointer;
+  &:checked {
+    background: no-repeat center/130% url(${radioCheckIcon});
+    border: none;
+  }
 `;
 
 export const ButtonWrapper = styled.div`
