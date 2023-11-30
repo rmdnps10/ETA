@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { gapi } from "gapi-script";
 
+let calendarList = [];
+let eventList = [];
 function Calendar() {
   gapi.load("client:auth2", function () {
     gapi.auth2.init({
