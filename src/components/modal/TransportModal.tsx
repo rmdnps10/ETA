@@ -87,7 +87,6 @@ const Input = styled.input.attrs({ type: "radio" })`
   height: 20px;
   border-radius: 20px;
   border: 2px solid #49454f;
-  cursor: pointer;
   &:checked {
     background: no-repeat center/130% url(${radioCheckIcon});
     border: none;

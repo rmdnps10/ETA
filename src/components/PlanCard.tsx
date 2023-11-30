@@ -25,6 +25,8 @@ function PlanCard({ color }: PlanCardProps) {
       <ContentContainer>
         <TitleSection>
           <Title>대학수학</Title>
+
+          
           {isTurnOn ? (
             <ToggleButton src={switchIcon} />
           ) : (
