@@ -13,24 +13,32 @@ import {gapi} from "gapi-script";
 let calendarList = [];
 
 async function setCalendarList() {
-    gapi.client.calendar.calendarList.list({})
-        .then((response) => {
-            // Handle the results here (response.result has the parsed body).
-            let data = response['result']['items'];
-            if (data != null) {
-                data.forEach(calendar => {
-                    calendarList.push({
-                        "id": calendar.id,
-                        "title": calendar.summary,
-                        "color": calendar.backgroundColor
+    gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
+        .then(function () {
+                gapi.client?.calendar.calendarList.list({})
+                    .then((response) => {
+                        // Handle the results here (response.result has the parsed body).
+                        let data = response['result']['items'];
+                        calendarList = [];
+                        if (data != null) {
+                            data.forEach(calendar => {
+                                calendarList.push({
+                                    "id": calendar.id,
+                                    "title": calendar.summary,
+                                    "color": calendar.backgroundColor
+                                });
+                            })
+                            console.log(calendarList);
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("Execute error", err);
                     });
-                })
-                console.log(calendarList);
-            }
-        })
-        .catch((err) => {
-            console.error("Execute error", err);
-        });
+            },
+            function (err) {
+                console.error("Error loading GAPI client for API", err);
+            });
+
 }
 
 function SettingList() {
@@ -42,6 +50,10 @@ function SettingList() {
     // useEffect(() => {
     //     console.log("added list" + calendarList);
     // }, [calendarList]);
+
+    gapi.load("client:auth2", function () {
+        gapi.auth2.init({client_id: "1008455855486-mu1dmilig6e1o98qam4f0i1v5cfmss55.apps.googleusercontent.com"});
+    });
 
     return (
         <SettingListWrapper>
