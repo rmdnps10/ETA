@@ -28,7 +28,7 @@ function PlanCardList() {
                 })) || [];
 
             for (const calendar of updatedCalendarList) {
-                if (localStorage.getItem(calendar.id) != 'false') {
+                if (localStorage.getItem(calendar.id) !== 'false') { // item false는 불러오지 않음
                     let timeMin = new Date();
                     let timeMax = new Date();
                     timeMin.setDate(timeMin.getDate() - 1);
@@ -40,6 +40,7 @@ function PlanCardList() {
                         timeMax: timeMax.toISOString(),
                         timeMin: timeMin.toISOString(),
                     });
+
                     const event_data = event_response.result.items;
                     const event_list = event_data?.map((event: any) => ({
                         id: event.id,
@@ -52,9 +53,35 @@ function PlanCardList() {
                         endTimeZone: event.end.dateTime,
                         color: calendar.color,
                         eventLocation: event.location,
-                        // lat: cor["lat"],
-                        // lng: cor["lon"],
+                        lat: 0.0,
+                        lng: 0.0,
                     })) || [];
+
+                    for (const event of event_list) {
+                        let url =
+                            "https://apis.openapi.sk.com/tmap/geo/fullAddrGeo?addressFlag=F01" +
+                            "&coordType=WGS84GEO&version=1" +
+                            "&fullAddr=" +
+                            encodeURI(event.eventLocation) +
+                            "&page=1" +
+                            "&count=1";
+
+                        const cor_response = await fetch(url, {
+                            method: "GET",
+                            headers: {
+                                Accept: "application/json",
+                                appKey: process.env.REACT_APP_TMAP_API_KEY,
+                            },
+                        });
+                        const cor = await cor_response.json();
+                        // console.log(cor);
+                        if (cor["coordinateInfo"] !== undefined) {
+                            let coordinate = cor["coordinateInfo"]["coordinate"][0];
+                            event.lat = coordinate.lat;
+                            event.lng = coordinate.lon;
+                        }
+                    }
+
                     events = events.concat(event_list);
                }
             }
