@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
 import { gapi } from "gapi-script";
+import axios from "axios";
 
 let calendarList = [];
 let eventList = [];
+
+function submit() {
+  axios.get("http://localhost:8000/list", {}).then((res) => {
+    console.log(res);
+  });
+}
+
 function Calendar() {
   gapi.load("client:auth2", function () {
     gapi.auth2.init({
@@ -117,12 +125,13 @@ function Calendar() {
   };
   console.log(process.env.REACT_APP_TMAP_API_KEY);
 
-  useEffect(() => {}, []);
+
+  // useEffect(() => {}, []);
 
   return (
     <>
       <div id={"content"} />
-      <button id={"authorize_button"} onClick={getEvents}>
+      <button id={"authorize_button"} onClick={submit}>
         authorize_button
       </button>
       {/*<button id={"signout_button"} onClick={apiCalendar.handleSignoutClick}>signout_button</button>*/}
