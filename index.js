@@ -12,6 +12,26 @@ const db = mysql.createPool({
     database: "Events",
 });
 
+
+db.getConnection((err, connection) => {
+   if (err) throw err;
+   console.log("Connected");
+   let query = "CREATE TABLE Events(" +
+       "id INT NOT NULL auto_increment PRIMARY KEY," +
+       "is_enabled  INT," +
+       "event_id TEXT," +
+       "calendar_id TEXT," +
+       "address TEXT," +
+       "lat DOUBLE," +
+       "lng DOUBLE," +
+       "routes TEXT" +
+       ");";
+   connection.query(query, (err, result) => {
+       if (err) throw err;
+       console.log(`Table created ${result}`);
+    });
+});
+
 const corsOptions = {
     origin: "*",
     credential: true
