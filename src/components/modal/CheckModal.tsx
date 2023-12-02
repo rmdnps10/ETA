@@ -11,11 +11,11 @@ import checkIcon from "../../assets/images/checkRoom.svg";
 import styled from "styled-components";
 import { ModalProps } from "./CalendarModal";
 import { useRecoilState } from "recoil";
-import { 외출준비시간 } from "state/atom";
+import { ready_time } from "state/atom";
 function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
   const checkHandler = () => {
     setPrepareTime(text);
-    localStorage.setItem("외출준비시간", text);
+    localStorage.setItem("ready_time", text);
     setIsDisplay(false);
   };
   const cancelHandler = () => {
@@ -25,10 +25,10 @@ function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
   const onTextChange = (e) => {
     setText(e.target.value);
   };
-  const [prepareTime, setPrepareTime] = useRecoilState(외출준비시간);
+  const [prepareTime, setPrepareTime] = useRecoilState(ready_time);
   useEffect(() => {
-    setPrepareTime(JSON.parse(localStorage.getItem("외출준비시간")));
-    setText(JSON.parse(localStorage.getItem("외출준비시간")));
+    setPrepareTime(JSON.parse(localStorage.getItem("ready_time")));
+    setText(JSON.parse(localStorage.getItem("ready_time")));
   }, []);
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>

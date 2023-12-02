@@ -4,23 +4,23 @@ import subwayIcon from "../../assets/images/subway.svg";
 import radioCheckIcon from "../../assets/images/radiocheck.svg";
 import { ModalProps } from "./CalendarModal";
 import { useRecoilState } from "recoil";
-import { 선호대중교통 } from "state/atom";
+import { fav_transportation } from "state/atom";
 function TransportModal({ isDisplay, setIsDisplay }: ModalProps) {
   const cancelHandler = () => {
     setIsDisplay(false);
   };
   const checkHandler = () => {
     setTransport(copyTransport);
-    localStorage.setItem("대중교통", copyTransport);
+    localStorage.setItem("fav_transportation", copyTransport);
     setIsDisplay(false);
   };
-  const [transport, setTransport] = useRecoilState(선호대중교통);
+  const [transport, setTransport] = useRecoilState(fav_transportation);
   const [copyTransport, setCopyTransport] = useState<string>("");
   const onChange = (e: React.ChangeEvent) => {
     setCopyTransport(e.target.defaultValue);
   };
   useEffect(() => {
-    setTransport(localStorage.getItem("대중교통"));
+    setTransport(localStorage.getItem("fav_transportation"));
   });
   return (
     <TransportModalBox style={{ display: `${isDisplay ? "block" : "none"}` }}>

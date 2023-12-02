@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import homeIcon from "../assets/images/home.svg";
 import subwayIcon from "../assets/images/subway.svg";
@@ -8,72 +8,75 @@ import TransportModal from "./modal/TransportModal";
 import CheckModal from "./modal/CheckModal";
 import CalendarModal from "./modal/CalendarModal";
 import HomeModal from "./modal/HomeModal";
-import { NullableCalendarModalItem } from "./modal/CalendarModalItem";
-import { useRecoilValue } from "recoil";
-import { 선호대중교통, 외출준비시간, 집주소 } from "state/atom";
+import {NullableCalendarModalItem} from "./modal/CalendarModalItem";
+import {useRecoilValue} from "recoil";
+import {fav_transportation, ready_time, home_address, home_address_lat, home_address_lng} from "state/atom";
 
 interface SettingListProps {
-  calendarList: NullableCalendarModalItem[];
+    calendarList: NullableCalendarModalItem[];
 }
 
-const SettingList = ({ calendarList }: SettingListProps) => {
-  const [showHome, setShowHome] = useState(false);
-  const [showTransport, setShowTransport] = useState(false);
-  const [showCheck, setShowCheck] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const handleItemClick = (modalSetter: (value: boolean) => void) => {
-    modalSetter(true);
-  };
-  const homeAddress = useRecoilValue(집주소);
-  const preferTransport = useRecoilValue(선호대중교통);
-  const prepareTime = useRecoilValue(외출준비시간);
-  return (
-    <SettingListWrapper>
-      <SettingItem onClick={() => handleItemClick(setShowHome)}>
-        <Icon src={homeIcon} />
-        <SettingDescription>
-          <SettingName>집 주소</SettingName>
-          <SettingSelection>{homeAddress}</SettingSelection>
-        </SettingDescription>
-      </SettingItem>
-      <SettingItem onClick={() => handleItemClick(setShowTransport)}>
-        <Icon src={subwayIcon} />
-        <SettingDescription>
-          <SettingName>선호 대중교통</SettingName>
-          <SettingSelection>{preferTransport}</SettingSelection>
-        </SettingDescription>
-      </SettingItem>
-      <SettingItem onClick={() => handleItemClick(setShowCheck)}>
-        <Icon src={checkRoomIcon} />
-        <SettingDescription>
-          <SettingName>외출 준비 시간</SettingName>
-          <SettingSelection>{prepareTime}분</SettingSelection>
-        </SettingDescription>
-      </SettingItem>
-      <SettingItem
-        onClick={() => {
-          handleItemClick(setShowCalendar);
-        }}
-      >
-        <Icon src={calendarIcon} />
-        <SettingDescription>
-          <SettingName>캘린더 알람 달력 출처</SettingName>
-          <SettingSelection>달력 선택..</SettingSelection>
-        </SettingDescription>
-      </SettingItem>
-      <HomeModal isDisplay={showHome} setIsDisplay={setShowHome} />
-      <TransportModal
-        isDisplay={showTransport}
-        setIsDisplay={setShowTransport}
-      />
-      <CheckModal isDisplay={showCheck} setIsDisplay={setShowCheck} />
-      <CalendarModal
-        isDisplay={showCalendar}
-        setIsDisplay={setShowCalendar}
-        calendarList={calendarList}
-      />
-    </SettingListWrapper>
-  );
+const SettingList = ({calendarList}: SettingListProps) => {
+    const [showHome, setShowHome] = useState(false);
+    const [showTransport, setShowTransport] = useState(false);
+    const [showCheck, setShowCheck] = useState(false);
+    const [showCalendar, setShowCalendar] = useState(false);
+    const handleItemClick = (modalSetter: (value: boolean) => void) => {
+        modalSetter(true);
+    };
+    const homeAddress = useRecoilValue(home_address);
+    const preferTransport = useRecoilValue(fav_transportation);
+    const prepareTime = useRecoilValue(ready_time);
+
+    console.log(homeAddress, useRecoilValue(home_address_lat), useRecoilValue(home_address_lng), preferTransport, prepareTime);
+
+    return (
+        <SettingListWrapper>
+            <SettingItem onClick={() => handleItemClick(setShowHome)}>
+                <Icon src={homeIcon}/>
+                <SettingDescription>
+                    <SettingName>집 주소</SettingName>
+                    <SettingSelection>{homeAddress}</SettingSelection>
+                </SettingDescription>
+            </SettingItem>
+            <SettingItem onClick={() => handleItemClick(setShowTransport)}>
+                <Icon src={subwayIcon}/>
+                <SettingDescription>
+                    <SettingName>선호 대중교통</SettingName>
+                    <SettingSelection>{preferTransport}</SettingSelection>
+                </SettingDescription>
+            </SettingItem>
+            <SettingItem onClick={() => handleItemClick(setShowCheck)}>
+                <Icon src={checkRoomIcon}/>
+                <SettingDescription>
+                    <SettingName>외출 준비 시간</SettingName>
+                    <SettingSelection>{prepareTime}분</SettingSelection>
+                </SettingDescription>
+            </SettingItem>
+            <SettingItem
+                onClick={() => {
+                    handleItemClick(setShowCalendar);
+                }}
+            >
+                <Icon src={calendarIcon}/>
+                <SettingDescription>
+                    <SettingName>캘린더 알람 달력 출처</SettingName>
+                    <SettingSelection>달력 선택..</SettingSelection>
+                </SettingDescription>
+            </SettingItem>
+            <HomeModal isDisplay={showHome} setIsDisplay={setShowHome}/>
+            <TransportModal
+                isDisplay={showTransport}
+                setIsDisplay={setShowTransport}
+            />
+            <CheckModal isDisplay={showCheck} setIsDisplay={setShowCheck}/>
+            <CalendarModal
+                isDisplay={showCalendar}
+                setIsDisplay={setShowCalendar}
+                calendarList={calendarList}
+            />
+        </SettingListWrapper>
+    );
 };
 
 const SettingListWrapper = styled.div`

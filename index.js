@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const PORT = process.env.port || 8000;
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const db = mysql.createPool({
     host: "localhost",
@@ -10,22 +12,74 @@ const db = mysql.createPool({
     database: "Events",
 });
 
-// app.get("/", (req, res) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     const sqlQuery = "INSERT INTO requested (rowno) VALUES (1)";
-//     db.query(sqlQuery, (err, result) => {
-//         console.log(err);
-//         res.send("success!");
-//     });
-// });
+const corsOptions = {
+    origin: "*",
+    credential: true
+};
+
+const jsonParser = bodyParser.json();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app.get("/list", (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
-    const sqlQuery = "SELECT * FROM Events";
-    db.query(sqlQuery, (err, result) => {
-       res.send(result);
+
+    let calendar_id = req.query.calendar_id;
+    let event_id = req.query.event_id;
+    let query = "SELECT * FROM Events";
+
+    if (calendar_id !== undefined) {
+        query += ` WHERE (calendar_id='${calendar_id}'`;
+        if (event_id !== undefined) {
+            query += ` AND event_id='${event_id}'`;
+        }
+        query += ")";
+    }
+
+    db.query(query, (err, result) => {
+        res.send(result);
     });
 });
+
+app.post("/insert", jsonParser, (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    let event_id = req.body.event_id;
+    let calendar_id = req.body.calendar_id;
+    let is_enabled = req.body.is_enabled;
+    let address = req.body.address;
+    let lat = req.body.lat;
+    let lng = req.body.lng;
+    let routes = req.body.routes;
+
+    const query = "INSERT INTO Events (is_enabled, event_id, calendar_id, address, lat, lng, routes) VALUES (?,?,?,?,?,?);";
+    db.query(query, [is_enabled, event_id, calendar_id, address, lat, lng, routes], (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/update", jsonParser, (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    let is_enabled = req.body.is_enabled;
+    let event_id = req.body.event_id;
+    let calendar_id = req.body.calendar_id;
+    let address = req.body.address;
+    let lat = req.body.lat;
+    let lng = req.body.lng;
+    let routes = req.body.routes;
+
+    const query = "UPDATE Events SET is_enabled = `?`, lat = `?`, lng = `?`, routes = `?`, address = `?` WHERE (calendar_id = `?` AND event_id = `?`);";
+    db.query(query, [is_enabled, lat, lng, routes, address, calendar_id, event_id], (err, result) => {
+        res.send(result);
+    });
+});
+
 
 app.listen(PORT, () => {
     console.log(`running on port ${PORT}`);
