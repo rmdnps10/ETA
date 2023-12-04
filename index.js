@@ -16,7 +16,7 @@ const db = mysql.createPool({
 db.getConnection((err, connection) => {
    if (err) throw err;
    console.log("Connected");
-   let query = "CREATE TABLE Events(" +
+   let query = "CREATE TABLE IF NOT EXISTS Events(" +
        "id INT NOT NULL auto_increment PRIMARY KEY," +
        "is_enabled  INT," +
        "event_id TEXT," +
@@ -28,7 +28,7 @@ db.getConnection((err, connection) => {
        ");";
    connection.query(query, (err, result) => {
        if (err) throw err;
-       console.log(`Table created ${result}`);
+       console.log(`Table created or exists ${result}`);
     });
 });
 

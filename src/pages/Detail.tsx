@@ -8,6 +8,8 @@ import DestinationItem from "components/getDirections/DestinationItem";
 import SubwayItem from "components/getDirections/SubwayItem";
 import WalkItem from "components/getDirections/WalkItem";
 
+// const {Tmapv2} = window;
+
 async function select(calendar_id: String, event_id: String) {
   return axios
     .get(
@@ -20,8 +22,8 @@ async function select(calendar_id: String, event_id: String) {
 }
 
 function initTmap() {
-  let map = new Tmapv2.Map("map_div", {
-    center: new Tmapv2.LatLng(37.566481622437934, 126.98502302169841), // 지도 초기 좌표
+  let map = new Tmapv3.Map("map_div", {
+    center: new Tmapv3.LatLng(37.566481622437934, 126.98502302169841), // 지도 초기 좌표
     width: "890px",
     height: "400px",
     zoom: 15,
@@ -29,19 +31,31 @@ function initTmap() {
 }
 
 function Detail() {
+  /** -> todo map 구현. 횟수 차감 위험으로 일단 주석처리
   useEffect(() => {
+    if (
+        document.querySelector(
+            `script[src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${process.env.REACT_APP_TMAP_API_KEY}"]`
+        )
+    ) return;
     const script = document.createElement("script");
     script.src = `https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${process.env.REACT_APP_TMAP_API_KEY}`;
     script.async = true;
     // script.addEventListener("load", initTmap);
     document.body.appendChild(script);
+    const script2 = document.createElement("script");
+    script2.src = `https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20230906`;
+    script2.async = true;
+    script.addEventListener("load", initTmap);
+    document.body.appendChild(script2);
   }, []);
+      */
 
   return (
     <>
       <DetailHeader />
       <div id={"map_div"} />
-      <TmapSection />
+      {/*<TmapSection />*/}
       <DetailInfo>
         <DetailBasicInfo>
           <PlanTime>
@@ -62,8 +76,6 @@ function Detail() {
           />
         </DetailGetDirections>
       </DetailInfo>
-
-      <button onClick={initTmap} />
     </>
   );
 }
