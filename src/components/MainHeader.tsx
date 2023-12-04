@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import mainIcon from "../assets/images/ETAIcon.svg";
 import SettingModal from "./SettingModal";
+import dayjs from "dayjs";
 function MainHeader() {
   const [isDisplayModal, setIsDisPlayModal] = useState(false);
   const toggleDiplay = (e: React.MouseEvent) => {
@@ -10,7 +11,7 @@ function MainHeader() {
 
   return (
     <StyledHeader>
-      <CurrentDate>November 14, 2023</CurrentDate>
+      <CurrentDate>{dayjs().format("MMMM DD, YYYY")}</CurrentDate>
       <MainIcon src={mainIcon} onClick={toggleDiplay} />
       <SettingModal isDisplay={isDisplayModal} />
     </StyledHeader>

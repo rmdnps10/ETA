@@ -127,7 +127,7 @@ function PlanCardList() {
                         let startTimeParse = new Date(event.startDate);
                         startTime.setHours(startTimeParse.getHours(), startTimeParse.getMinutes());
 
-                        if (data.data.length == 0) { // not on database
+                        if (data.data.length === 0) { // not on database
                             let geoUrl = "https://maps.googleapis.com/maps/api/geocode/json?" +
                                 "address=" +
                                 encodeURI(event.eventLocation) +
