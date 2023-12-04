@@ -3,6 +3,10 @@ import DetailHeader from "../components/DetailHeader";
 import DetailMap from "../components/DetailMap";
 import axios from "axios";
 import styled from "styled-components";
+import PrepareItem from "components/getDirections/PrepareItem";
+import DestinationItem from "components/getDirections/DestinationItem";
+import SubwayItem from "components/getDirections/SubwayItem";
+import WalkItem from "components/getDirections/WalkItem";
 
 async function select(calendar_id: String, event_id: String) {
   return axios
@@ -48,7 +52,15 @@ function Detail() {
           </PlanSpace>
         </DetailBasicInfo>
 
-        <DetailGetDirections></DetailGetDirections>
+        <DetailGetDirections>
+          <PrepareItem time={"오전 9:11"} />
+          <SubwayItem />
+          <WalkItem />
+          <DestinationItem
+            destination={"서강대학교 김대건관"}
+            time={"오전 10:30"}
+          />
+        </DetailGetDirections>
       </DetailInfo>
 
       <button onClick={initTmap} />
@@ -71,12 +83,17 @@ const DetailBasicInfo = styled.div`
 `;
 
 const DetailGetDirections = styled.div`
-  width: 40%;
+  width: 50%;
   margin-left: auto;
-  height: 500px;
+  justify-content: center;
   flex-shrink: 0;
   border-radius: 16px;
   background: #f9f2ff;
+  display: flex;
+  gap: 28px;
+  padding: 32px 0px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const PlanTime = styled.div`
