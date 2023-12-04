@@ -29,6 +29,7 @@ const SettingModalBox = styled.div`
   width: 122px;
   height: 114px;
   position: absolute;
+  z-index: 9999;
   top: 70px;
   right: 0px;
   background-color: #f7e4ff;

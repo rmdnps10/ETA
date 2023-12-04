@@ -5,15 +5,17 @@ import swtichFalseIcon from "../assets/images/switchIconFalse.svg";
 import busIcon from "../assets/images/busIcon.svg";
 import checkRoom from "../assets/images/checkRoom.svg";
 import line from "../assets/images/line.svg";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { InputCheck } from "./modal/CalendarModalItem";
 interface PlanCardProps {
   color: string;
 }
-function PlanCard({ color }: PlanCardProps) {
+function PlanCard({ item }: PlanCardProps) {
   const navigate = useNavigate();
   const [isTurnOn, setIsTurnOn] = useState(false);
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    if (e.target.tagName === "IMG") {
+    if (e.target.tagName === "INPUT") {
       setIsTurnOn(!isTurnOn);
       return;
     }
@@ -21,28 +23,19 @@ function PlanCard({ color }: PlanCardProps) {
   };
   return (
     <PlanCardWrapper onClick={onClickItem}>
-      <ColorSection color={color} />
+      <ColorSection color={item.color} />
       <ContentContainer>
         <TitleSection>
-          <Title>대학수학</Title>
-
-          
-          {isTurnOn ? (
-            <ToggleButton src={switchIcon} />
-          ) : (
-            <ToggleButton
-              src={swtichFalseIcon}
-              style={{ paddingRight: "8px" }}
-            />
-          )}
+          <Title>{item?.title}</Title>
+          <InputCustomCheck type="checkbox" checked={isTurnOn} />
         </TitleSection>
         <DestinateSection>
           <DestinateTime>
-            오전 <span>10:30</span>
+            {`${dayjs(item?.startDate).format("a") === "am" ? "오전" : "오후"}`}
+
+            <span>{" " + dayjs(item?.startDate).format("hh:mm")}</span>
           </DestinateTime>
-          <DestinatePlace>
-            서강대학교 김대건관, 대한민국 서울특별시 마포구 신수동 1-6
-          </DestinatePlace>
+          <DestinatePlace>{item.eventLocation}</DestinatePlace>
         </DestinateSection>
 
         <TimeSpendSection>
@@ -72,7 +65,7 @@ const PlanCardWrapper = styled.div`
   box-shadow: 0px 0.5px 15px 0px rgba(0, 0, 0, 0.15);
 `;
 const ColorSection = styled.div`
-  background-color: ${(props: any) => props.theme.colors[props.color]};
+  background-color: ${(props: any) => props.color};
   border-radius: 16px 16px 0px 0px;
   height: 20px;
 `;
@@ -88,9 +81,14 @@ const TitleSection = styled.div`
   height: 100px;
 `;
 
+const InputCustomCheck = styled(InputCheck)`
+  margin-left: auto;
+`;
+
 const Title = styled.div`
   color: #32283e;
   font-size: 24px;
+  width: 50%;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;

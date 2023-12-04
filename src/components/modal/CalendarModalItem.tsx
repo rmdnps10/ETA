@@ -54,7 +54,7 @@ const Circle = styled.div`
 const CheckLabel = styled.label`
   margin-left: auto;
 `;
-const InputCheck = styled.input`
+export const InputCheck = styled.input`
   appearance: none;
   cursor: pointer;
   position: relative;
