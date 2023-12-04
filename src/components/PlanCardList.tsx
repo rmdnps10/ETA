@@ -206,6 +206,7 @@ function PlanCardList() {
                             */
 
               let routes_result = JSON.stringify(sample_routes);
+              // console.log(routes_result);
               insert(
                 event.calendar_id,
                 event.event_id,

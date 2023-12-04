@@ -20,7 +20,9 @@ function PlanCard({ item }: PlanCardProps) {
 
       return;
     }
-    navigate("/detail");
+    navigate(
+      `/detail?calendar_id=${item.calendar_id}?event_id=${item.event_id}`
+    );
   };
   return (
     <PlanCardWrapper onClick={onClickItem}>

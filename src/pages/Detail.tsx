@@ -200,11 +200,7 @@ function Detail() {
     );
 }
 
-const TmapSection = styled.div`
-  width: 100%;
-  height: 400px;
-  background-color: black;
-`;
+
 const DetailInfo = styled.div`
   display: flex;
   margin-top: 30px;
