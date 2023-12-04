@@ -2,10 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import backArrowIcon from "../assets/images/backArrow.svg";
 import mainIcon from "../assets/images/ETAIcon.svg";
+import { useNavigate } from "react-router-dom";
 function DetailHeader() {
+  const navigate = useNavigate();
   return (
     <DetailHeaderWrapper>
-      <BackArrowIcon src={backArrowIcon} />
+      <BackArrowIcon
+        src={backArrowIcon}
+        onClick={() => {
+          navigate("/");
+        }}
+      />
       <PlanInform>
         <Plan>November 14, 2023</Plan>
         <Title>대학수학</Title>
@@ -23,7 +30,9 @@ const DetailHeaderWrapper = styled.div`
   width: 100%;
 `;
 
-const BackArrowIcon = styled.img``;
+const BackArrowIcon = styled.img`
+  cursor: pointer;
+`;
 
 const PlanInform = styled.div`
   display: flex;
