@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PlanCard from "./PlanCard";
+import PlanCard, {
+  ColorSection,
+  ContentContainer,
+  PlanCardWrapper,
+} from "./PlanCard";
 import { gapi } from "gapi-script";
 import axios from "axios";
 import sample_routes from "../test/sample_routes_req.json";
+import { Skeleton } from "@mui/material";
 
 let events = [];
 
@@ -200,7 +205,6 @@ function PlanCardList() {
                             let routes_result = JSON.stringify(routes_response.data.metaData);
                             */
 
-
               let routes_result = JSON.stringify(sample_routes);
               insert(
                 event.calendar_id,
@@ -237,6 +241,47 @@ function PlanCardList() {
 
   return (
     <PlanCardListSection>
+      {eventList ? (
+        ""
+      ) : (
+        <>
+          <PlanCardWrapper>
+            <ColorSection />
+            <ContentContainer>
+              <Skeleton animation="wave" height="80px" />
+              <Skeleton animation="wave" height="60px" />
+              <Skeleton animation="wave" height="120px" />
+            </ContentContainer>
+          </PlanCardWrapper>
+          <PlanCardWrapper>
+            {" "}
+            <ColorSection />
+            <ContentContainer>
+              <Skeleton animation="wave" height="80px" />
+              <Skeleton animation="wave" height="60px" />
+              <Skeleton animation="wave" height="120px" />
+            </ContentContainer>
+          </PlanCardWrapper>
+          <PlanCardWrapper>
+            {" "}
+            <ColorSection />
+            <ContentContainer>
+              <Skeleton animation="wave" height="80px" />
+              <Skeleton animation="wave" height="60px" />
+              <Skeleton animation="wave" height="120px" />
+            </ContentContainer>
+          </PlanCardWrapper>
+          <PlanCardWrapper>
+            {" "}
+            <ColorSection />
+            <ContentContainer>
+              <Skeleton animation="wave" height="80px" />
+              <Skeleton animation="wave" height="60px" />
+              <Skeleton animation="wave" height="120px" />
+            </ContentContainer>
+          </PlanCardWrapper>
+        </>
+      )}
       {eventList?.map((item) => (
         <PlanCard item={item} id={item?.id} />
       ))}

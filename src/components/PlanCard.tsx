@@ -17,7 +17,7 @@ function PlanCard({ item }: PlanCardProps) {
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     if (e.target.tagName === "INPUT") {
       setIsTurnOn(!isTurnOn);
-      
+
       return;
     }
     navigate("/detail");
@@ -58,20 +58,20 @@ function PlanCard({ item }: PlanCardProps) {
   );
 }
 
-const PlanCardWrapper = styled.div`
+export const PlanCardWrapper = styled.div`
   width: 48%;
   height: 308px;
   border-radius: 16px;
   background-color: #f9f2ff;
   box-shadow: 0px 0.5px 15px 0px rgba(0, 0, 0, 0.15);
 `;
-const ColorSection = styled.div`
+export const ColorSection = styled.div`
   background-color: ${(props: any) => props.color};
   border-radius: 16px 16px 0px 0px;
   height: 20px;
 `;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   width: 80%;
   margin: 0 auto;
 `;
