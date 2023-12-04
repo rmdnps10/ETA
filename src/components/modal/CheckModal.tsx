@@ -40,8 +40,8 @@ function CheckModal({ isDisplay, setIsDisplay }: ModalProps) {
           <DivideIndex>분</DivideIndex>
         </InputContainer>
         <ButtonWrapper>
-          <Button onClick={checkHandler}>확인</Button>
           <Button onClick={cancelHandler}>취소</Button>
+          <Button onClick={checkHandler}>확인</Button>
         </ButtonWrapper>
       </TransportModalContainer>
     </TransportModalBox>
