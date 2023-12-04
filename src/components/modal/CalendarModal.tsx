@@ -43,7 +43,7 @@ function CalendarModal({
         ))}
 
         <ButtonWrapper>
-          <Button onClick={checkHandler}>설정하기</Button>
+          <Button onClick={checkHandler}>확인</Button>
         </ButtonWrapper>
       </TransportModalContainer>
     </TransportModalBox>

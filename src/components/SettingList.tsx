@@ -39,13 +39,6 @@ const SettingList = ({calendarList}: SettingListProps) => {
                     <SettingSelection>{homeAddress}</SettingSelection>
                 </SettingDescription>
             </SettingItem>
-            <SettingItem onClick={() => handleItemClick(setShowTransport)}>
-                <Icon src={subwayIcon}/>
-                <SettingDescription>
-                    <SettingName>선호 대중교통</SettingName>
-                    <SettingSelection>{preferTransport}</SettingSelection>
-                </SettingDescription>
-            </SettingItem>
             <SettingItem onClick={() => handleItemClick(setShowCheck)}>
                 <Icon src={checkRoomIcon}/>
                 <SettingDescription>
@@ -65,10 +58,6 @@ const SettingList = ({calendarList}: SettingListProps) => {
                 </SettingDescription>
             </SettingItem>
             <HomeModal isDisplay={showHome} setIsDisplay={setShowHome}/>
-            <TransportModal
-                isDisplay={showTransport}
-                setIsDisplay={setShowTransport}
-            />
             <CheckModal isDisplay={showCheck} setIsDisplay={setShowCheck}/>
             <CalendarModal
                 isDisplay={showCalendar}

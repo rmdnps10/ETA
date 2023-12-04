@@ -18,10 +18,12 @@ function HomeModal({isDisplay, setIsDisplay}: ModalProps) {
     const [homeAddressLng, setHomeAddressLng] = useRecoilState(home_address_lng);
     let address = homeAddress;
 
-    const script = document.createElement("script");
-    script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-    script.async = true;
-    document.body.appendChild(script);
+    if (!document.querySelector(`script[src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"]`)) {
+        const script = document.createElement("script");
+        script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+        script.async = true;
+        document.body.appendChild(script);
+    }
 
     const cancelHandler = () => {
         setIsDisplay(false);
@@ -136,8 +138,7 @@ function HomeModal({isDisplay, setIsDisplay}: ModalProps) {
                 <Label>집 주소 설정</Label>
                 <div id={"layer"}/>
                 <ButtonWrapper>
-                    <Button onClick={checkHandler}>확인하기</Button>
-                    <Button onClick={cancelHandler}>취소하기</Button>
+                    <Button onClick={cancelHandler}>취소</Button>
                 </ButtonWrapper>
             </TransportModalContainer>
         </TransportModalBox>
