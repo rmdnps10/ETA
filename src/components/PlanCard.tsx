@@ -17,6 +17,7 @@ function PlanCard({ item }: PlanCardProps) {
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     if (e.target.tagName === "INPUT") {
       setIsTurnOn(!isTurnOn);
+      
       return;
     }
     navigate("/detail");
