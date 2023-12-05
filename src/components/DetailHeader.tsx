@@ -3,6 +3,7 @@ import styled from "styled-components";
 import backArrowIcon from "../assets/images/backArrow.svg";
 import mainIcon from "../assets/images/ETAIcon.svg";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 function DetailHeader() {
   const navigate = useNavigate();
   return (
@@ -14,7 +15,7 @@ function DetailHeader() {
         }}
       />
       <PlanInform>
-        <Plan>November 14, 2023</Plan>
+        <Plan>{dayjs().format("MMMM DD, YYYY")}</Plan>
         <Title>대학수학</Title>
       </PlanInform>
       <MainIcon src={mainIcon} />

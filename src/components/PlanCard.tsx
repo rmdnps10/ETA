@@ -24,6 +24,7 @@ function PlanCard({ item }: PlanCardProps) {
       `/detail?calendar_id=${item.calendar_id}?event_id=${item.event_id}`
     );
   };
+  console.log(JSON.parse(item.routes));
   return (
     <PlanCardWrapper onClick={onClickItem}>
       <ColorSection color={item.color} />

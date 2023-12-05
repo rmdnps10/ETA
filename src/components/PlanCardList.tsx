@@ -283,6 +283,7 @@ function PlanCardList() {
           </PlanCardWrapper>
         </>
       )}
+      {eventList?.length === 0 ? <div>오늘 일정이 없습니다.</div> : ""}
       {eventList?.map((item) => (
         <PlanCard item={item} id={item?.id} />
       ))}
