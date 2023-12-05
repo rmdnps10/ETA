@@ -11,7 +11,6 @@ import sample_routes from "../test/sample_routes_req.json";
 import { Skeleton } from "@mui/material";
 
 let events = [];
-
 function insert(
   calendar_id: String,
   event_id: String,

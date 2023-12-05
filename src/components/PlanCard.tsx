@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import switchIcon from "../assets/images/switchIcon.svg";
-import swtichFalseIcon from "../assets/images/switchIconFalse.svg";
 import busIcon from "../assets/images/busIcon.svg";
 import checkRoom from "../assets/images/checkRoom.svg";
 import line from "../assets/images/line.svg";
@@ -17,14 +15,19 @@ function PlanCard({ item }: PlanCardProps) {
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     if (e.target.tagName === "INPUT") {
       setIsTurnOn(!isTurnOn);
-
       return;
     }
     navigate(
       `/detail?calendar_id=${item.calendar_id}?event_id=${item.event_id}`
     );
   };
-  console.log(JSON.parse(item.routes));
+  const parsedData = JSON.parse(item.routes).metaData.plan.itineraries;
+  // 대중교통시간 (분)
+  const transportTime = Math.round(parsedData[0].totalTime / 60);
+  // 준비시간 (분)
+  const preparedTime = localStorage.getItem("ready_time");
+  // 대중교통시간 + 준비시간 (분))
+  const totalTime = Number(transportTime) + Number(preparedTime);
   return (
     <PlanCardWrapper onClick={onClickItem}>
       <ColorSection color={item.color} />
@@ -36,7 +39,6 @@ function PlanCard({ item }: PlanCardProps) {
         <DestinateSection>
           <DestinateTime>
             {`${dayjs(item?.startDate).format("a") === "am" ? "오전" : "오후"}`}
-
             <span>{" " + dayjs(item?.startDate).format("hh:mm")}</span>
           </DestinateTime>
           <DestinatePlace>{item.eventLocation}</DestinatePlace>
@@ -46,15 +48,27 @@ function PlanCard({ item }: PlanCardProps) {
           <Transport>
             <RideTransport>
               <TransportImage src={busIcon} />
-              <SpendTime>49분</SpendTime>
+              <SpendTime>{transportTime}분</SpendTime>
             </RideTransport>
             <Line src={line} />
             <RideTransport>
               <TransportImage src={checkRoom} />
-              <SpendTime>39분</SpendTime>
+              <SpendTime>{preparedTime}분</SpendTime>
             </RideTransport>
           </Transport>
-          <TimeBefore>1시간 19분 전 (오전 9:11)</TimeBefore>
+          <TimeBefore>
+            {Math.floor(totalTime / 60)}시간{" "}
+            {totalTime - Math.floor(totalTime / 60) * 60}분 전 (
+            {dayjs(item?.startDate)
+              .subtract(totalTime, "minute")
+              .format("a") === "am"
+              ? "오전 "
+              : "오후 "}
+            {dayjs(item?.startDate)
+              .subtract(totalTime, "minute")
+              .format("hh:mm")}
+            )
+          </TimeBefore>
         </TimeSpendSection>
       </ContentContainer>
     </PlanCardWrapper>
@@ -87,6 +101,9 @@ const TitleSection = styled.div`
 
 const InputCustomCheck = styled(InputCheck)`
   margin-left: auto;
+  &:checked {
+    background-color: #9147af;
+  }
 `;
 
 const Title = styled.div`
