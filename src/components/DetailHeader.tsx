@@ -4,7 +4,7 @@ import backArrowIcon from "../assets/images/backArrow.svg";
 import mainIcon from "../assets/images/ETAIcon.svg";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-function DetailHeader() {
+function DetailHeader({ summary }) {
   const navigate = useNavigate();
   return (
     <DetailHeaderWrapper>
@@ -16,7 +16,7 @@ function DetailHeader() {
       />
       <PlanInform>
         <Plan>{dayjs().format("MMMM DD, YYYY")}</Plan>
-        <Title>대학수학</Title>
+        <Title>{summary ? summary : ""}</Title>
       </PlanInform>
       <MainIcon src={mainIcon} />
     </DetailHeaderWrapper>

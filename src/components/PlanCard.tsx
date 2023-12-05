@@ -18,7 +18,7 @@ function PlanCard({ item }: PlanCardProps) {
       return;
     }
     navigate(
-      `/detail?calendar_id=${item.calendar_id}?event_id=${item.event_id}`
+      `/detail?calendar_id=${item.calendar_id}&event_id=${item.event_id}`
     );
   };
   const parsedData = JSON.parse(item.routes).metaData.plan.itineraries;

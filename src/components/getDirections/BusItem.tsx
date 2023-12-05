@@ -1,27 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
-function SubwayItem({ item, accumulateTime, startTime }) {
+function BusItem({ item, startTime, accumulateTime }) {
   return (
     <TransportItemWrapper>
       <TransportIndex>
-        <TransportCircle color={item?.routeColor}>{item?.type}</TransportCircle>
+        <TransportCircle color={item?.routeColor}>
+          {item?.route.match(/\d+/g)}
+        </TransportCircle>
         <TransportLine color={item?.routeColor} />
         <TransportCircle color={item?.routeColor} />
       </TransportIndex>
       <TransportContent>
         <Start>
-          <span>
-            {item?.start?.name + "역"} {item?.type}호선
-          </span>{" "}
-          <br />
-          {Math.floor(item?.sectionTime / 60)}분, 19개 역 이동
+          <span>{item?.start?.name}</span> <br />
+          {Math.floor(item?.sectionTime / 60)}분,{" "}
+          {item?.passStopList?.stationList?.length}개 역 이동
         </Start>
-        <End>
-          {item?.end?.name + "역"} {item?.type}호선
-        </End>
+        <End>{item?.end?.name}</End>
       </TransportContent>
       <TransportTime>
+        {" "}
         {dayjs(startTime).add(accumulateTime, "minute").format("a") === "pm"
           ? "오후 "
           : "오전 "}{" "}
@@ -30,7 +29,6 @@ function SubwayItem({ item, accumulateTime, startTime }) {
     </TransportItemWrapper>
   );
 }
-
 const TransportItemWrapper = styled.div`
   display: flex;
   width: 90%;
@@ -50,13 +48,13 @@ const TransportLine = styled.div`
 const TransportCircle = styled.div`
   width: 24px;
   height: 24px;
-  background: #3db449;
+  background: ${(props) => "#" + props?.color};
   display: flex;
-  color: #fff;
   justify-content: center;
+  font-size: 10px;
   align-items: center;
   border-radius: 100%;
-  background: ${(props) => "#" + props?.color};
+  color: #fff;
 `;
 const TransportContent = styled.div`
   display: flex;
@@ -86,7 +84,7 @@ const TransportTime = styled.div`
   margin-top: 5px;
   font-weight: 700;
   font-size: 16px;
-
   margin-left: auto;
 `;
-export default SubwayItem;
+
+export default BusItem;
