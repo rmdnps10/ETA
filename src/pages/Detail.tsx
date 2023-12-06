@@ -209,13 +209,12 @@ function Detail() {
             .subtract(routesInfo?.totalTime / 60, "minute")
             .format("hh:mm")
   );
-  console.log(Math.floor(routesInfo?.totalTime / 60));
 
   const startTime = dayjs(eventResponse?.start?.dateTime).subtract(
     routesInfo?.totalTime / 60 + parseInt(localStorage.getItem("ready_time")),
     "minute"
   );
-  let 누적시간 = parseInt(localStorage.getItem("ready_time"));
+  let 누적시간 = [parseInt(localStorage.getItem("ready_time"))];
   return (
     <>
       <DetailHeader summary={eventResponse?.summary} />
@@ -240,14 +239,16 @@ function Detail() {
                 : "오후 " + startTime.format("hh:mm")
             }
           />
-          {routesInfo?.legs?.map((item) => {
-            누적시간 += Math.floor(item.sectionTime / 60);
+          {routesInfo?.legs?.map((item, idx) => {
+            누적시간.push(Math.floor(item.sectionTime / 60));
             if (item.mode === "BUS") {
               return (
                 <BusItem
                   item={item}
                   startTime={startTime}
-                  accumulateTime={누적시간}
+                  accumulateTime={누적시간
+                    .slice(0, idx + 1)
+                    .reduce((acc, currentValue) => acc + currentValue, 0)}
                 />
               );
             } else if (item.mode === "WALK") {
@@ -255,7 +256,9 @@ function Detail() {
                 <WalkItem
                   item={item}
                   startTime={startTime}
-                  accumulateTime={누적시간}
+                  accumulateTime={누적시간
+                    .slice(0, idx + 1)
+                    .reduce((acc, currentValue) => acc + currentValue, 0)}
                 />
               );
             } else if (item.mode === "SUBWAY") {
@@ -263,7 +266,9 @@ function Detail() {
                 <SubwayItem
                   item={item}
                   startTime={startTime}
-                  accumulateTime={누적시간}
+                  accumulateTime={누적시간
+                    .slice(0, idx + 1)
+                    .reduce((acc, currentValue) => acc + currentValue, 0)}
                 />
               );
             }
@@ -272,7 +277,10 @@ function Detail() {
           <DestinationItem
             destination={"서강대학교 김대건관"}
             startTime={startTime}
-            accumulateTime={누적시간}
+            accumulateTime={
+              parseInt(routesInfo?.totalTime / 60) +
+              parseInt(localStorage.getItem("ready_time"))
+            }
           />
         </DetailGetDirections>
       </DetailInfo>

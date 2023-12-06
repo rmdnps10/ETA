@@ -109,7 +109,7 @@ const InputCustomCheck = styled(InputCheck)`
 const Title = styled.div`
   color: #32283e;
   font-size: 24px;
-  width: 50%;
+  width: 80%;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;

@@ -4,7 +4,6 @@ import walkIcon from "../../assets/images/walk.svg";
 import styled from "styled-components";
 import dayjs from "dayjs";
 function WalkItem({ item, startTime, accumulateTime }) {
-  console.log(item);
   return (
     <ItemWrapper>
       <CheckIcon src={walkIcon} />
@@ -33,7 +32,7 @@ const WalkingContent = styled.div`
 const WalingGuide = styled.div`
   color: #000;
   font-size: 16px;
-  font-style: normal;
+  font-style: normal;,
   font-weight: 700;
   line-height: 28px; /* 175% */
 `;
