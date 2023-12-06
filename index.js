@@ -1,9 +1,14 @@
 const express = require("express");
-const app = express();
 const mysql = require("mysql");
-const PORT = process.env.port || 8000;
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const schedule = require("node-schedule");
+// const gapi = require("gapi-script");
+// import gapi from "gapi-script";
+// import sample_routes from "./src/test/sample_routes_req.json" assert { type: "json" };
+
+const app = express();
+const PORT = process.env.port || 8000;
 
 const db = mysql.createPool({
   host: "localhost",
@@ -15,17 +20,16 @@ const db = mysql.createPool({
 db.getConnection((err, connection) => {
   if (err) throw err;
   console.log("Connected");
-  let query =
-    "CREATE TABLE IF NOT EXISTS Events(" +
-    "id INT NOT NULL auto_increment PRIMARY KEY," +
-    "is_enabled  INT," +
-    "event_id TEXT," +
-    "calendar_id TEXT," +
-    "address TEXT," +
-    "lat DOUBLE," +
-    "lng DOUBLE," +
-    "routes TEXT" +
-    ");";
+  let query = "CREATE TABLE IF NOT EXISTS Events(" +
+      "id INT NOT NULL auto_increment PRIMARY KEY," +
+      "is_enabled  INT," +
+      "event_id TEXT," +
+      "calendar_id TEXT," +
+      "address TEXT," +
+      "lat DOUBLE," +
+      "lng DOUBLE," +
+      "routes TEXT" +
+      ");";
   connection.query(query, (err, result) => {
     if (err) throw err;
     console.log(`Table created or exists ${result}`);
@@ -119,6 +123,16 @@ app.post("/update", jsonParser, (req, res) => {
   );
 });
 
+async function doSomething() {
+}
+
+schedule.scheduleJob('30 * * * * *', async () => {
+    doSomething();
+});
+
+doSomething();
+
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`);
 });
+
