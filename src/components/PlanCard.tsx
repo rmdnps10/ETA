@@ -4,17 +4,38 @@ import busIcon from "../assets/images/busIcon.svg";
 import checkRoom from "../assets/images/checkRoom.svg";
 import line from "../assets/images/line.svg";
 import dayjs from "dayjs";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { InputCheck } from "./modal/CalendarModalItem";
 interface PlanCardProps {
   color: string;
 }
+
 function PlanCard({ item }: PlanCardProps) {
   const navigate = useNavigate();
   const [isTurnOn, setIsTurnOn] = useState(false);
+  const toggleIsEnabled = async () => {
+    await axios
+      .post("http://localhost:8000/update", {
+        event_id: item?.event_id,
+        calendar_id: item?.calendar_id,
+        is_enabled: !isTurnOn,
+        address: item?.address,
+        lat: item?.lat,
+        lng: item?.lng,
+        routes: item?.routes,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     if (e.target.tagName === "INPUT") {
       setIsTurnOn(!isTurnOn);
+      toggleIsEnabled();
       return;
     }
     navigate(

@@ -34,7 +34,7 @@ function Settings() {
           })) || [];
         setCalendarList(updatedCalendarList);
       } catch (err) {
-        console.error("Error loading GAPI or fetching calendar list", err);
+        console.error(err);
       }
     };
 
