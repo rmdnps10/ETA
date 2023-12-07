@@ -42,12 +42,12 @@ const PlanInform = styled.div`
 
 const Plan = styled.div`
   font-feature-settings: "clig" off, "liga" off;
-  font-family: SF Pro Display;
+  font-family: Pretendard;
   font-size: 16px;
   font-weight: 400;
 `;
 const Title = styled.div`
-  font-family: SF Pro Display;
+  font-family: Pretendard;
   font-size: 24px;
   font-weight: 700;
 `;

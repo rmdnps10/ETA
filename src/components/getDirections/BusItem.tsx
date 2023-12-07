@@ -24,7 +24,7 @@ function BusItem({ item, startTime, accumulateTime }) {
         {dayjs(startTime).add(accumulateTime, "minute").format("a") === "pm"
           ? "오후 "
           : "오전 "}{" "}
-        {dayjs(startTime).add(accumulateTime, "minute").format("hh:mm")}
+        {dayjs(startTime).add(accumulateTime, "minute").format("h:mm")}
       </TransportTime>
     </TransportItemWrapper>
   );

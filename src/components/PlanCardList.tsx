@@ -192,7 +192,7 @@ function PlanCardList() {
 
                             let routes_result = JSON.stringify(sample_routes);
                             event.route = routes_result;
-                            // console.log(routes_result);
+                            console.log(routes_result);
                             insert(
                                 event.calendar_id,
                                 event.event_id,
@@ -200,7 +200,7 @@ function PlanCardList() {
                                 event.eventLocation,
                                 event.lat,
                                 event.lng,
-                                routes_result
+                                event.route
                             );
                         } else {
                             event.lat = data.data[0].lat;
