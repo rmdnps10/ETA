@@ -22,7 +22,7 @@ db.getConnection((err, connection) => {
   console.log("Connected");
   let query = "CREATE TABLE IF NOT EXISTS Events(" +
       "id INT NOT NULL auto_increment PRIMARY KEY," +
-      "is_enabled  INT," +
+      "is_enabled INT," +
       "event_id TEXT," +
       "calendar_id TEXT," +
       "address TEXT," +
@@ -70,7 +70,7 @@ app.get("/list", (req, res) => {
     if (event_id !== undefined) {
       query += ` AND event_id='${event_id}'`;
     }
-    query += ")";
+    query += " )";
   }
 
   db.query(query, (err, result) => {

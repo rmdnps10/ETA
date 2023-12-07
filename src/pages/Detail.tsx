@@ -313,7 +313,9 @@ function Detail() {
     return (
         <>
             <DetailHeader summary={eventResponse?.summary}/>
-            <div id={"map_div"}/>
+            <MapView>
+                <div id={"map_div"} />
+            </MapView>
             {/*<TmapSection />*/}
             <DetailInfo>
                 <DetailBasicInfo>
@@ -382,6 +384,14 @@ function Detail() {
         </>
     );
 }
+
+const MapView = styled.div`
+  width: 100%;
+  height: 400px;
+  border-radius: 16px;  
+  background-color: darkgrey;
+  overflow: hidden;
+`;
 
 const DetailInfo = styled.div`
   display: flex;
