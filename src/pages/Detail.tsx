@@ -192,7 +192,6 @@ function Detail() {
             gapi.auth2.init({
                 client_id: process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID,
             });
-            console.log("??");
             await gapi.client.load(
                 "https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest"
             );
@@ -200,7 +199,6 @@ function Detail() {
                 calendarId: calendarId, // query에서 받아온 calendar_id 넣어주기
                 eventId: eventId, // query에서 받아온 event_id 받아주기
             });
-            console.log("??");
             const calendar_response = await gapi.client.calendar.calendarList.get({
                 calendarId: calendarId,
             });
@@ -285,7 +283,6 @@ function Detail() {
                 event.routes = data.data[0].routes;
             }
 
-            // console.log(JSON.parse(event.routes).metaData.plan.itineraries[0]);
             setRoutesInfo(JSON.parse(event.routes).metaData.plan.itineraries[0]);
             setMap(JSON.parse(event.routes).metaData.plan.itineraries[0])
         } catch (err) {
@@ -297,9 +294,9 @@ function Detail() {
         initGAPI();
     }, []);
     console.log(
-        dayjs(eventResponse?.start?.dateTime).format("a") === "am"
+        (dayjs(eventResponse?.start?.dateTime).format("a") === "am"
             ? "오전 "
-            : "오후 " +
+            : "오후 ") +
             dayjs(eventResponse?.start?.dateTime)
                 .subtract(routesInfo?.totalTime / 60, "minute")
                 .format("h:mm")

@@ -1,100 +1,107 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import busIcon from "../assets/images/busIcon.svg";
 import checkRoom from "../assets/images/checkRoom.svg";
 import line from "../assets/images/line.svg";
 import dayjs from "dayjs";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { InputCheck } from "./modal/CalendarModalItem";
+import {useNavigate} from "react-router-dom";
+import {InputCheck} from "./modal/CalendarModalItem";
+
 interface PlanCardProps {
-  color: string;
+    color: string;
 }
 
-function PlanCard({ item }: PlanCardProps) {
-  const navigate = useNavigate();
-  const [isTurnOn, setIsTurnOn] = useState(item.is_enabled);
-  const toggleIsEnabled = async () => {
-    await axios
-      .post("http://localhost:8000/update", {
-        event_id: item?.event_id,
-        calendar_id: item?.calendar_id,
-        is_enabled: !isTurnOn,
-        address: item?.address,
-        lat: item?.lat,
-        lng: item?.lng,
-        routes: item?.routes,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-  const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    if (e.target.tagName === "INPUT") {
-      setIsTurnOn(!isTurnOn);
-      toggleIsEnabled();
-      return;
-    }
-    navigate(
-      `/detail?calendar_id=${item.calendar_id}&event_id=${item.event_id}`
+function PlanCard({item}: PlanCardProps) {
+    const navigate = useNavigate();
+    const [isTurnOn, setIsTurnOn] = useState(item.is_enabled);
+    const toggleIsEnabled = async () => {
+        await axios
+            .post("http://localhost:8000/update", {
+                event_id: item?.event_id,
+                calendar_id: item?.calendar_id,
+                is_enabled: !isTurnOn,
+                address: item?.address,
+                lat: item?.lat,
+                lng: item?.lng,
+                routes: item?.routes,
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    const onClickItem = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+        if (e.target.tagName === "INPUT") {
+            setIsTurnOn(!isTurnOn);
+            toggleIsEnabled();
+            return;
+        }
+        navigate(
+            `/detail?calendar_id=${item.calendar_id}&event_id=${item.event_id}`
+        );
+    };
+    const timeToString = (minute: number) => {
+        let arr = [];
+        if (minute / 60 >= 1) arr.push(Math.round(minute / 60) + "시간");
+        if (minute % 60 !== 0) arr.push(minute % 60 + "분");
+        return arr.join(" ");
+    };
+    const parsedData = JSON.parse(item.routes).metaData.plan.itineraries;
+    // 대중교통시간 (분)
+
+    const transportTime = Math.round(parsedData[0].totalTime / 60);
+    // 준비시간 (분)
+    const preparedTime = Number(localStorage.getItem("ready_time"));
+    // 대중교통시간 + 준비시간 (분))
+    const totalTime = transportTime + preparedTime;
+
+    return (
+        <PlanCardWrapper onClick={onClickItem}>
+            <ColorSection color={item.color}/>
+            <ContentContainer>
+                <TitleSection>
+                    <Title>{item?.title}</Title>
+                    <InputCustomCheck type="checkbox" checked={isTurnOn}/>
+                </TitleSection>
+                <DestinateSection>
+                    <DestinateTime>
+                        {`${dayjs(item?.startDate).format("a") === "am" ? "오전" : "오후"}`}
+                        <span>{" " + dayjs(item?.startDate).format("h:mm")}</span>
+                    </DestinateTime>
+                    <DestinatePlace>{item.eventLocation}</DestinatePlace>
+                </DestinateSection>
+
+                <TimeSpendSection>
+                    <Transport>
+                        <RideTransport>
+                            <TransportImage src={busIcon}/>
+                            <SpendTime>{timeToString(transportTime)}</SpendTime>
+                        </RideTransport>
+                        <Line src={line}/>
+                        <RideTransport>
+                            <TransportImage src={checkRoom}/>
+                            <SpendTime>{timeToString(preparedTime)}</SpendTime>
+                        </RideTransport>
+                    </Transport>
+                    <TimeBefore>
+                        {timeToString(totalTime)} 전 (
+                        {dayjs(item?.startDate)
+                            .subtract(totalTime, "minute")
+                            .format("a") === "am"
+                            ? "오전 "
+                            : "오후 "}
+                        {dayjs(item?.startDate)
+                            .subtract(totalTime, "minute")
+                            .format("h:mm")}
+                        )
+                    </TimeBefore>
+                </TimeSpendSection>
+            </ContentContainer>
+        </PlanCardWrapper>
     );
-  };
-  const parsedData = JSON.parse(item.routes).metaData.plan.itineraries;
-  // 대중교통시간 (분)
-  const transportTime = Math.round(parsedData[0].totalTime / 60);
-  // 준비시간 (분)
-  const preparedTime = localStorage.getItem("ready_time");
-  // 대중교통시간 + 준비시간 (분))
-  const totalTime = Number(transportTime) + Number(preparedTime);
-
-  return (
-    <PlanCardWrapper onClick={onClickItem}>
-      <ColorSection color={item.color} />
-      <ContentContainer>
-        <TitleSection>
-          <Title>{item?.title}</Title>
-          <InputCustomCheck type="checkbox" checked={isTurnOn} />
-        </TitleSection>
-        <DestinateSection>
-          <DestinateTime>
-            {`${dayjs(item?.startDate).format("a") === "am" ? "오전" : "오후"}`}
-            <span>{" " + dayjs(item?.startDate).format("h:mm")}</span>
-          </DestinateTime>
-          <DestinatePlace>{item.eventLocation}</DestinatePlace>
-        </DestinateSection>
-
-        <TimeSpendSection>
-          <Transport>
-            <RideTransport>
-              <TransportImage src={busIcon} />
-              <SpendTime>{transportTime}분</SpendTime>
-            </RideTransport>
-            <Line src={line} />
-            <RideTransport>
-              <TransportImage src={checkRoom} />
-              <SpendTime>{preparedTime}분</SpendTime>
-            </RideTransport>
-          </Transport>
-          <TimeBefore>
-            {Math.floor(totalTime / 60)}시간{" "}
-            {totalTime - Math.floor(totalTime / 60) * 60}분 전 (
-            {dayjs(item?.startDate)
-              .subtract(totalTime, "minute")
-              .format("a") === "am"
-              ? "오전 "
-              : "오후 "}
-            {dayjs(item?.startDate)
-              .subtract(totalTime, "minute")
-              .format("h:mm")}
-            )
-          </TimeBefore>
-        </TimeSpendSection>
-      </ContentContainer>
-    </PlanCardWrapper>
-  );
 }
 
 export const PlanCardWrapper = styled.div`
@@ -123,6 +130,7 @@ const TitleSection = styled.div`
 
 const InputCustomCheck = styled(InputCheck)`
   margin-left: auto;
+
   &:checked {
     background-color: #9147af;
   }
@@ -154,6 +162,7 @@ const DestinateTime = styled.div`
     font-weight: 700;
     line-height: 24px;
   }
+
   color: #32283e;
   font-family: Pretendard;
   font-size: 24px;
