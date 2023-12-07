@@ -16,14 +16,14 @@ import '../vsm.css'
 
 function insert(calendar_id: String, event_id: String, is_enabled: boolean, address: String, lat: number, lng: number, routes: String) {
     axios.post("http://localhost:8000/insert", {
-            event_id: event_id,
-            calendar_id: calendar_id,
-            is_enabled: is_enabled,
-            address: address,
-            lat: lat,
-            lng: lng,
-            routes: routes,
-        })
+        event_id: event_id,
+        calendar_id: calendar_id,
+        is_enabled: is_enabled,
+        address: address,
+        lat: lat,
+        lng: lng,
+        routes: routes,
+    })
         .then((res) => {
             console.log(res);
         })
@@ -34,11 +34,11 @@ function insert(calendar_id: String, event_id: String, is_enabled: boolean, addr
 
 async function select(calendar_id: String, event_id: String) {
     return axios.get(
-            `http://localhost:8000/list?calendar_id=${calendar_id}&event_id=${event_id}`,
-            {}
-        ).then((res) => {
-            return res;
-        });
+        `http://localhost:8000/list?calendar_id=${calendar_id}&event_id=${event_id}`,
+        {}
+    ).then((res) => {
+        return res;
+    });
 }
 
 let map;
@@ -200,6 +200,7 @@ function Detail() {
             await gapi.client.load(
                 "https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest"
             );
+            const color_response = await gapi.client.calendar.colors.get({});
             const event_response = await gapi.client.calendar.events.get({
                 calendarId: calendarId, // query에서 받아온 calendar_id 넣어주기
                 eventId: eventId, // query에서 받아온 event_id 받아주기
@@ -207,7 +208,6 @@ function Detail() {
             const calendar_response = await gapi.client.calendar.calendarList.get({
                 calendarId: calendarId,
             });
-            setEventResponse(event_response.result);
             const event = {
                 is_enabled: true,
                 event_id: event_response.result.id,
@@ -218,7 +218,7 @@ function Detail() {
                 startTimeZone: event_response.result.start.timeZone,
                 endDate: event_response.result.end.dateTime,
                 endTimeZone: event_response.result.end.dateTime,
-                color: calendar_response.result.backgroundColor,
+                color: color_response.result.event[event_response.result.colorId].background,
                 eventLocation: event_response.result.location,
                 lat: 0.0,
                 lng: 0.0,
@@ -288,6 +288,7 @@ function Detail() {
                 event.routes = data.data[0].routes;
             }
 
+            setEventResponse(event);
             setRoutesInfo(JSON.parse(event.routes).metaData.plan.itineraries[0]);
             setMap(JSON.parse(event.routes).metaData.plan.itineraries[0])
         } catch (err) {
@@ -299,12 +300,12 @@ function Detail() {
         initGAPI();
     }, []);
     console.log(
-        (dayjs(eventResponse?.start?.dateTime).format("a") === "am"
+        (dayjs(eventResponse?.startDate).format("a") === "am"
             ? "오전 "
             : "오후 ") +
-            dayjs(eventResponse?.start?.dateTime)
-                .subtract(routesInfo?.totalTime / 60, "minute")
-                .format("h:mm")
+        dayjs(eventResponse?.startDate)
+            .subtract(routesInfo?.totalTime / 60, "minute")
+            .format("h:mm")
     );
 
     const startTime = dayjs(eventResponse?.start?.dateTime).subtract(
@@ -314,21 +315,23 @@ function Detail() {
     let accuTime = [parseInt(localStorage.getItem("ready_time"))];
     return (
         <>
-            <DetailHeader summary={eventResponse?.summary}/>
+            <DetailHeader summary={eventResponse?.title}/>
             <MapView>
-                <div id={"map_div"} />
+                <div id={"map_div"}/>
             </MapView>
-            {/*<TmapSection />*/}
             <DetailInfo>
-                <DetailBasicInfo>
-                    <PlanTime>
-                        {dayjs(eventResponse?.start.dateTime).format("a") === "am"
-                            ? "오전"
-                            : "오후"}{" "}
-                        <span>{dayjs(eventResponse?.start.dateTime).format("h:mm")}</span>
-                    </PlanTime>
-                    <PlanSpace>{eventResponse?.location}</PlanSpace>
-                </DetailBasicInfo>
+                <DetailBasicGroup>
+                    <ColorBar color={eventResponse?.color}/>
+                    <DetailBasicInfo>
+                        <PlanTime>
+                            {dayjs(eventResponse?.startDate).format("a") === "am"
+                                ? "오전"
+                                : "오후"}{" "}
+                            <span>{dayjs(eventResponse?.startDate).format("h:mm")}</span>
+                        </PlanTime>
+                        <PlanSpace>{eventResponse?.eventLocation}</PlanSpace>
+                    </DetailBasicInfo>
+                </DetailBasicGroup>
 
                 <DetailGetDirections>
                     <PrepareItem
@@ -390,7 +393,7 @@ function Detail() {
 const MapView = styled.div`
   width: 100%;
   height: 400px;
-  border-radius: 16px;  
+  border-radius: 16px;
   background-color: darkgrey;
   overflow: hidden;
 `;
@@ -400,8 +403,13 @@ const DetailInfo = styled.div`
   margin-top: 30px;
 `;
 
+const DetailBasicGroup = styled.div`
+  display: flex;
+  height: fit-content;
+`;
 const DetailBasicInfo = styled.div`
-  margin-left: 32px;
+  margin-left: 16px;
+  height: fit-content;
 `;
 
 const DetailGetDirections = styled.div`
@@ -416,6 +424,12 @@ const DetailGetDirections = styled.div`
   padding: 32px 0px;
   flex-direction: column;
   align-items: center;
+`;
+
+const ColorBar = styled.div`
+  width: 16px;
+  border-radius: 16px;
+  background-color: ${(props: any) => props.color};
 `;
 
 const PlanTime = styled.div`

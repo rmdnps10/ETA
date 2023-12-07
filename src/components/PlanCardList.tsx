@@ -77,6 +77,7 @@ function PlanCardList() {
                     timeMax.setDate(timeMax.getDate());
                     timeMax.setHours(23, 59, 59, 99);
 
+                    const color_response = await gapi.client.calendar.colors.get({});
                     const event_response = await gapi.client.calendar.events.list({
                         calendarId: calendar.id,
                         timeMax: timeMax.toISOString(),
@@ -84,6 +85,9 @@ function PlanCardList() {
                     });
 
                     const event_data = event_response.result.items;
+                    const color_data = color_response.result;
+                    console.log(event_data);
+                    console.log(color_data);
                     const event_list =
                         event_data?.map((event: any) => ({
                             is_enabled: true,
@@ -95,7 +99,7 @@ function PlanCardList() {
                             startTimeZone: event.start.timeZone,
                             endDate: event.end.dateTime,
                             endTimeZone: event.end.dateTime,
-                            color: calendar.color,
+                            color: color_data.event[event.colorId].background,
                             eventLocation: event.location,
                             lat: 0.0,
                             lng: 0.0,
