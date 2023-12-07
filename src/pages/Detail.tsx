@@ -134,31 +134,36 @@ function drawData(data) {
 }
 
 function setMap(routesInfo) {
-    let startLat = 0.0;
-    let startLng = 0.0;
-    let endLat = 0.0;
-    let endLng = 0.0;
+    let maxLat = -90.0;
+    let maxLng = -180.0;
+    let minLat = 90.0;
+    let minLng = 180.0;
 
     for (let index = 0; index < routesInfo?.legs?.length; index++) {
         let item = routesInfo?.legs[index];
         if (index == 0) {
             addMarker("llStart", item.start.lon, item.start.lat, index.toString());
-            startLat = item.start.lat;
-            startLng = item.start.lon;
         } else if (index == routesInfo?.legs?.length - 1) {
             addMarker("llEnd", item.end.lon, item.end.lat, index.toString());
-            endLat = item.end.lat;
-            endLng = item.end.lon;
-        } else {
-            // addMarker("llPass", item.start.lon, item.start.lat, index.toString());
         }
-        drawData(item);
+        if (maxLat < item.start.lat) maxLat = item.start.lat;
+        if (maxLat < item.end.lat) maxLat = item.end.lat;
+        if (maxLng < item.start.lon) maxLng = item.start.lon;
+        if (maxLng < item.end.lon) maxLng = item.end.lon;
 
+        if (minLat > item.start.lat) minLat = item.start.lat;
+        if (minLat > item.end.lat) minLat = item.end.lat;
+        if (minLng > item.start.lon) minLng = item.start.lon;
+        if (minLng > item.end.lon) minLng = item.end.lon;
+
+        drawData(item);
     }
 
+    console.log(maxLat, maxLng);
+    console.log(minLat, minLng);
     let bounds = new Tmapv3.LatLngBounds();
-    bounds.extend(new Tmapv3.LatLng(startLat, startLng));
-    bounds.extend(new Tmapv3.LatLng(endLat, endLng));
+    bounds.extend(new Tmapv3.LatLng(maxLat, maxLng));
+    bounds.extend(new Tmapv3.LatLng(minLat, minLng));
     map.fitBounds(bounds, 50);
 }
 
