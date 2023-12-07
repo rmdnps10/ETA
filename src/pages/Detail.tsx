@@ -308,7 +308,7 @@ function Detail() {
             .format("h:mm")
     );
 
-    const startTime = dayjs(eventResponse?.start?.dateTime).subtract(
+    const startTime = dayjs(eventResponse?.startDate).subtract(
         routesInfo?.totalTime / 60 + parseInt(localStorage.getItem("ready_time")),
         "minute"
     );
