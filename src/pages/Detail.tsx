@@ -12,6 +12,7 @@ import sample_routes from "../test/sample_routes_req.json";
 import {useLocation, useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import BusItem from "components/getDirections/BusItem";
+import '../vsm.css'
 
 function insert(calendar_id: String, event_id: String, is_enabled: boolean, address: String, lat: number, lng: number, routes: String) {
     axios.post("http://localhost:8000/insert", {
@@ -43,14 +44,122 @@ async function select(calendar_id: String, event_id: String) {
 let map;
 let markerList = [];
 let pointArray = [];
+let polylineArray = [];
 
 function initTmap() {
     map = new Tmapv3.Map("map_div", {
         center: new Tmapv3.LatLng(37.566481622437934, 126.98502302169841), // 지도 초기 좌표
-        width: "890px",
+        width: "100%",
         height: "400px",
-        zoom: 15,
+        zoom: 16,
     });
+}
+
+function addMarker(type, lon, lat, tag) {
+    let imgURL;
+    switch (type) {
+        case "llStart":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+            break;
+        case "llPass":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_p.png";
+            break;
+        case "llEnd":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+            break;
+    }
+    let marker = new Tmapv3.Marker({
+        position: new Tmapv3.LatLng(lat, lon),
+        icon: imgURL,
+        map: map
+    });
+    marker.tag = tag;
+    markerList[tag] = marker;
+    console.log(marker);
+    return marker;
+}
+
+function drawData(data) {
+    let arrayLine = [];
+
+    if (data.passShape !== undefined) {
+        let lineString = data.passShape.linestring.split(" ");
+        for (const crd of lineString) {
+            let point = new Tmapv3.LatLng(Number(crd.split(",")[1]), Number(crd.split(",")[0]));
+            arrayLine.push(point);
+        }
+        let color;
+        if (data.routeColor !== undefined) {
+            color = "#" + data.routeColor;
+        } else {
+            color = "#03A9F4";
+        }
+        let polyline = new Tmapv3.Polyline({
+            path: arrayLine,
+            strokeColor: color,
+            strokeWeight: 6,
+            map: map,
+            fillColor: "#00FF00",
+            fillOpacity: 1.0,
+            direction: true,
+            outline: true,
+            strokeOpacity: 1.0,
+        });
+        polylineArray.push(polyline);
+    } else if (data.steps !== undefined) {
+        for (const step of data.steps) {
+            let lineString = step.linestring.split(" ");
+            for (const crd of lineString) {
+                let point = new Tmapv3.LatLng(Number(crd.split(",")[1]), Number(crd.split(",")[0]));
+                arrayLine.push(point);
+            }
+        }
+        let color;
+        if (data.routeColor !== undefined) {
+            color = "#" + data.routeColor;
+        } else {
+            color = "#03A9F4";
+        }
+        let polyline = new Tmapv3.Polyline({
+            path: arrayLine,
+            strokeColor: color,
+            strokeWeight: 6,
+            map: map,
+            direction: true,
+            outline: true,
+            strokeOpacity: 1.0,
+        });
+        polylineArray.push(polyline);
+    }
+}
+
+function setMap(routesInfo) {
+    let startLat = 0.0;
+    let startLng = 0.0;
+    let endLat = 0.0;
+    let endLng = 0.0;
+
+    for (let index = 0; index < routesInfo?.legs?.length; index++) {
+        let item = routesInfo?.legs[index];
+        if (index == 0) {
+            addMarker("llStart", item.start.lon, item.start.lat, index.toString());
+            startLat = item.start.lat;
+            startLng = item.start.lon;
+        } else if (index == routesInfo?.legs?.length - 1) {
+            addMarker("llEnd", item.end.lon, item.end.lat, index.toString());
+            endLat = item.end.lat;
+            endLng = item.end.lon;
+        } else {
+            // addMarker("llPass", item.start.lon, item.start.lat, index.toString());
+        }
+        drawData(item);
+
+    }
+
+    let bounds = new Tmapv3.LatLngBounds();
+    bounds.extend(new Tmapv3.LatLng(startLat, startLng));
+    bounds.extend(new Tmapv3.LatLng(endLat, endLng));
+    map.fitBounds(bounds, 50);
 }
 
 function Detail() {
@@ -76,7 +185,7 @@ function Detail() {
         document.body.appendChild(script);
          */
         const script2 = document.createElement("script");
-        script2.src = `https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20230906`;
+        script2.src = `https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20231206`;
         script2.async = true;
         script2.addEventListener("load", initTmap);
         document.body.appendChild(script2);
@@ -120,10 +229,6 @@ function Detail() {
             };
 
             const data = await select(event.calendar_id, event.event_id);
-            console.log(JSON.parse(data.data[0].routes).metaData.plan.itineraries[0]);
-            setRoutesInfo(
-                JSON.parse(data.data[0].routes).metaData.plan.itineraries[0]
-            );
             if (data.data.length === 0) {
                 // not on database
                 let geoUrl =
@@ -185,6 +290,10 @@ function Detail() {
                 event.lng = data.data[0].lng;
                 event.routes = data.data[0].routes;
             }
+
+            // console.log(JSON.parse(event.routes).metaData.plan.itineraries[0]);
+            setRoutesInfo(JSON.parse(event.routes).metaData.plan.itineraries[0]);
+            setMap(JSON.parse(event.routes).metaData.plan.itineraries[0])
         } catch (err) {
             console.error("Error loading GAPI or fetching calendar list", err);
         }
