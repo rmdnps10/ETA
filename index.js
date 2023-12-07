@@ -112,8 +112,10 @@ app.post("/update", jsonParser, (req, res) => {
   let lng = req.body.lng;
   let routes = req.body.routes;
 
+  console.log(`UPDATE : ${event_id}`);
+
   const query =
-    "UPDATE Events SET is_enabled = `?`, lat = `?`, lng = `?`, routes = `?`, address = `?` WHERE (calendar_id = `?` AND event_id = `?`);";
+    "UPDATE Events SET is_enabled = ?, lat = ?, lng = ?, routes = ?, address = ? WHERE (calendar_id = ? AND event_id = ?);";
   db.query(
     query,
     [is_enabled, lat, lng, routes, address, calendar_id, event_id],

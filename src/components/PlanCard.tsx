@@ -13,7 +13,7 @@ interface PlanCardProps {
 
 function PlanCard({ item }: PlanCardProps) {
   const navigate = useNavigate();
-  const [isTurnOn, setIsTurnOn] = useState(false);
+  const [isTurnOn, setIsTurnOn] = useState(item.is_enabled);
   const toggleIsEnabled = async () => {
     await axios
       .post("http://localhost:8000/update", {
@@ -49,6 +49,7 @@ function PlanCard({ item }: PlanCardProps) {
   const preparedTime = localStorage.getItem("ready_time");
   // 대중교통시간 + 준비시간 (분))
   const totalTime = Number(transportTime) + Number(preparedTime);
+
   return (
     <PlanCardWrapper onClick={onClickItem}>
       <ColorSection color={item.color} />

@@ -176,19 +176,13 @@ function Detail() {
     // 누적시간
 
     useEffect(() => {
-        if (document.querySelector(`script[src="https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20230906"]`)) return;
-        /*
+        const url = "https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20231206";
+        if (document.querySelector(`script[src=url]`)) return;
         const script = document.createElement("script");
-        script.src = `https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${process.env.REACT_APP_TMAP_API_KEY}`;
+        script.src = url;
         script.async = true;
         script.addEventListener("load", initTmap);
         document.body.appendChild(script);
-         */
-        const script2 = document.createElement("script");
-        script2.src = `https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20231206`;
-        script2.async = true;
-        script2.addEventListener("load", initTmap);
-        document.body.appendChild(script2);
     }, []);
 
     const initGAPI = async () => {
@@ -315,7 +309,7 @@ function Detail() {
         routesInfo?.totalTime / 60 + parseInt(localStorage.getItem("ready_time")),
         "minute"
     );
-    let 누적시간 = [parseInt(localStorage.getItem("ready_time"))];
+    let accuTime = [parseInt(localStorage.getItem("ready_time"))];
     return (
         <>
             <DetailHeader summary={eventResponse?.summary}/>
@@ -335,19 +329,19 @@ function Detail() {
                 <DetailGetDirections>
                     <PrepareItem
                         time={
-                            dayjs(eventResponse?.start?.dateTime).format("a") === "am"
+                            (startTime.format("a") === "am"
                                 ? "오전 "
-                                : "오후 " + startTime.format("h:mm")
+                                : "오후 ") + startTime.format("h:mm")
                         }
                     />
                     {routesInfo?.legs?.map((item, idx) => {
-                        누적시간.push(Math.floor(item.sectionTime / 60));
+                        accuTime.push(Math.floor(item.sectionTime / 60));
                         if (item.mode === "BUS") {
                             return (
                                 <BusItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
@@ -357,7 +351,7 @@ function Detail() {
                                 <WalkItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
@@ -367,7 +361,7 @@ function Detail() {
                                 <SubwayItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
