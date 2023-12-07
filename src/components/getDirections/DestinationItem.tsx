@@ -3,8 +3,6 @@ import dayjs from "dayjs";
 import { CheckIcon, ItemLabel, ItemTime, ItemWrapper } from "./PrepareItem";
 import flagIcon from "../../assets/images/flag.svg";
 function DestinationItem({ destination, startTime, accumulateTime }) {
-  console.log(startTime);
-  console.log(accumulateTime);
   return (
     <ItemWrapper>
       <CheckIcon src={flagIcon} />
