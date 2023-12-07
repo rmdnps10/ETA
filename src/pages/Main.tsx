@@ -15,14 +15,16 @@ function Main() {
         fetchData();
     }, []);
 
-    const triggerNotif = useNotification("Hello, React hooks!", {
-        body: "Nice React!",
+    const triggerNotif = useNotification("운영체제 ", {
+        body: "1시간 24분 전\n서강대학교 김대건관, 대한민국 서울특별시 마포구 신수동 1-6까지 경로 확인 후 출발하세요.",
     });
+
+    if (triggerNotif) {
+        triggerNotif();
+    }
 
     return (
         <>
-            <button
-                onClick={triggerNotif} />
             <MainHeader/>
             <PlanCardList/>
         </>
