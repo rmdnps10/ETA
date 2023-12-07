@@ -30,7 +30,7 @@ const BackArrowIcon = styled.img`
 const H1 = styled.h1`
   color: #32283e;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: SF Pro Display;
+  font-family: Pretendard;
   font-size: 36px;
   font-style: normal;
   font-weight: 700;

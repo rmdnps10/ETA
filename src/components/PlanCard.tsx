@@ -39,7 +39,7 @@ function PlanCard({ item }: PlanCardProps) {
         <DestinateSection>
           <DestinateTime>
             {`${dayjs(item?.startDate).format("a") === "am" ? "오전" : "오후"}`}
-            <span>{" " + dayjs(item?.startDate).format("hh:mm")}</span>
+            <span>{" " + dayjs(item?.startDate).format("h:mm")}</span>
           </DestinateTime>
           <DestinatePlace>{item.eventLocation}</DestinatePlace>
         </DestinateSection>
@@ -66,7 +66,7 @@ function PlanCard({ item }: PlanCardProps) {
               : "오후 "}
             {dayjs(item?.startDate)
               .subtract(totalTime, "minute")
-              .format("hh:mm")}
+              .format("h:mm")}
             )
           </TimeBefore>
         </TimeSpendSection>
@@ -133,7 +133,7 @@ const DestinateTime = styled.div`
     line-height: 24px;
   }
   color: #32283e;
-  font-family: SF Pro Display;
+  font-family: Pretendard;
   font-size: 24px;
   font-weight: 700;
 `;
@@ -161,7 +161,7 @@ const Line = styled.img`
 const SpendTime = styled.div`
   color: #55505d;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: SF Pro Display;
+  font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
