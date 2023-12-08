@@ -225,6 +225,8 @@ function Detail() {
                 routes: "",
             };
 
+            document.title = event.title;
+
             const data = await select(event.calendar_id, event.event_id);
             if (data.data.length === 0) {
                 // not on database
