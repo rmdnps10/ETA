@@ -99,8 +99,6 @@ function drawData(data) {
             strokeColor: color,
             strokeWeight: 6,
             map: map,
-            fillColor: "#00FF00",
-            fillOpacity: 1.0,
             direction: true,
             outline: true,
             strokeOpacity: 1.0,
@@ -141,9 +139,9 @@ function setMap(routesInfo) {
 
     for (let index = 0; index < routesInfo?.legs?.length; index++) {
         let item = routesInfo?.legs[index];
-        if (index == 0) {
+        if (index === 0) {
             addMarker("llStart", item.start.lon, item.start.lat, index.toString());
-        } else if (index == routesInfo?.legs?.length - 1) {
+        } else if (index === routesInfo?.legs?.length - 1) {
             addMarker("llEnd", item.end.lon, item.end.lat, index.toString());
         }
         if (maxLat < item.start.lat) maxLat = item.start.lat;
@@ -218,7 +216,7 @@ function Detail() {
                 startTimeZone: event_response.result.start.timeZone,
                 endDate: event_response.result.end.dateTime,
                 endTimeZone: event_response.result.end.dateTime,
-                color: color_response.result.event[event_response.result.colorId].background,
+                color: event_response.result.colorId !== undefined ? color_response.result.event[event_response.result.colorId].background : "#049be5",
                 eventLocation: event_response.result.location,
                 lat: 0.0,
                 lng: 0.0,

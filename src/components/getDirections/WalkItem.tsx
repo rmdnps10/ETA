@@ -9,7 +9,7 @@ function WalkItem({ item, startTime, accumulateTime }) {
       <CheckIcon src={walkIcon} />
       <WalkingContent>
         <WalingGuide>
-          {item?.start?.name}에서 {item?.end?.name}까지 도보로 이동
+            <span>{item?.start?.name}에서 {item?.end?.name}까지 도보로 이동</span>
         </WalingGuide>
         <WalkingTime>
           {Math.floor(item?.sectionTime / 60)}분, {item?.distance}m 이동
@@ -29,12 +29,15 @@ const WalkingContent = styled.div`
   width: 60%;
   flex-direction: column;
 `;
-const WalingGuide = styled.div`
+const WalingGuide = styled.span`
   color: #000;
   font-size: 16px;
   font-style: normal;,
   font-weight: 700;
   line-height: 28px; /* 175% */
+  span {
+    font-weight: 700;
+  }
 `;
 const WalkingTime = styled.div`
   color: #000;

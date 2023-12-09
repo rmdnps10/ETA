@@ -20,7 +20,6 @@ function useNotifications(title: string, options: NotificationOptions) {
         }
     };
     return fireNotif;
-
 }
 
 export default useNotifications;

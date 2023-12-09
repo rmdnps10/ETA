@@ -86,8 +86,6 @@ function PlanCardList() {
 
                     const event_data = event_response.result.items;
                     const color_data = color_response.result;
-                    console.log(event_data);
-                    console.log(color_data);
                     const event_list =
                         event_data?.map((event: any) => ({
                             is_enabled: true,
@@ -99,7 +97,7 @@ function PlanCardList() {
                             startTimeZone: event.start.timeZone,
                             endDate: event.end.dateTime,
                             endTimeZone: event.end.dateTime,
-                            color: color_data.event[event.colorId].background,
+                            color: event.colorId !== undefined ? color_data.event[event.colorId].background : "#049be5",
                             eventLocation: event.location,
                             lat: 0.0,
                             lng: 0.0,
@@ -160,7 +158,7 @@ function PlanCardList() {
                              */
 
                             let routes_result = JSON.stringify(sample_routes);
-                            event.route = routes_result;
+                            event.routes = routes_result;
                             console.log(routes_result);
                             insert(
                                 event.calendar_id,
@@ -169,7 +167,7 @@ function PlanCardList() {
                                 event.eventLocation,
                                 event.lat,
                                 event.lng,
-                                event.route
+                                event.routes
                             );
                         } else {
                             event.lat = data.data[0].lat;
@@ -202,8 +200,6 @@ function PlanCardList() {
     useEffect(() => {
         initGAPI();
     }, []);
-
-    console.log(eventList);
 
     return (
         <PlanCardListSection>
