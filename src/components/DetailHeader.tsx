@@ -18,12 +18,17 @@ function DetailHeader({ summary }) {
       <PlanInform>
         <Plan>{dayjs().format("MMMM DD, YYYY")}</Plan>
         {summary ? (
-          <Title>{summary }</Title>
+          <Title>{summary}</Title>
         ) : (
           <Skeleton animation="wave" width="400px" height={"30px"} />
         )}
       </PlanInform>
-      <MainIcon src={mainIcon} />
+      <MainIcon
+        src={mainIcon}
+        onClick={() => {
+          navigate("/settings");
+        }}
+      />
     </DetailHeaderWrapper>
   );
 }
