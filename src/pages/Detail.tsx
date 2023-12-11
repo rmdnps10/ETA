@@ -12,17 +12,18 @@ import sample_routes from "../test/sample_routes_req.json";
 import {useLocation, useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import BusItem from "components/getDirections/BusItem";
+import '../vsm.css'
 
 function insert(calendar_id: String, event_id: String, is_enabled: boolean, address: String, lat: number, lng: number, routes: String) {
     axios.post("http://localhost:8000/insert", {
-            event_id: event_id,
-            calendar_id: calendar_id,
-            is_enabled: is_enabled,
-            address: address,
-            lat: lat,
-            lng: lng,
-            routes: routes,
-        })
+        event_id: event_id,
+        calendar_id: calendar_id,
+        is_enabled: is_enabled,
+        address: address,
+        lat: lat,
+        lng: lng,
+        routes: routes,
+    })
         .then((res) => {
             console.log(res);
         })
@@ -33,24 +34,135 @@ function insert(calendar_id: String, event_id: String, is_enabled: boolean, addr
 
 async function select(calendar_id: String, event_id: String) {
     return axios.get(
-            `http://localhost:8000/list?calendar_id=${calendar_id}&event_id=${event_id}`,
-            {}
-        ).then((res) => {
-            return res;
-        });
+        `http://localhost:8000/list?calendar_id=${calendar_id}&event_id=${event_id}`,
+        {}
+    ).then((res) => {
+        return res;
+    });
 }
 
 let map;
 let markerList = [];
 let pointArray = [];
+let polylineArray = [];
 
 function initTmap() {
     map = new Tmapv3.Map("map_div", {
         center: new Tmapv3.LatLng(37.566481622437934, 126.98502302169841), // 지도 초기 좌표
-        width: "890px",
+        width: "100%",
         height: "400px",
-        zoom: 15,
+        zoom: 16,
     });
+}
+
+function addMarker(type, lon, lat, tag) {
+    let imgURL;
+    switch (type) {
+        case "llStart":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+            break;
+        case "llPass":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_p.png";
+            break;
+        case "llEnd":
+            imgURL = "https://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+            break;
+    }
+    let marker = new Tmapv3.Marker({
+        position: new Tmapv3.LatLng(lat, lon),
+        icon: imgURL,
+        map: map
+    });
+    marker.tag = tag;
+    markerList[tag] = marker;
+    console.log(marker);
+    return marker;
+}
+
+function drawData(data) {
+    let arrayLine = [];
+
+    if (data.passShape !== undefined) {
+        let lineString = data.passShape.linestring.split(" ");
+        for (const crd of lineString) {
+            let point = new Tmapv3.LatLng(Number(crd.split(",")[1]), Number(crd.split(",")[0]));
+            arrayLine.push(point);
+        }
+        let color;
+        if (data.routeColor !== undefined) {
+            color = "#" + data.routeColor;
+        } else {
+            color = "#03A9F4";
+        }
+        let polyline = new Tmapv3.Polyline({
+            path: arrayLine,
+            strokeColor: color,
+            strokeWeight: 6,
+            map: map,
+            direction: true,
+            outline: true,
+            strokeOpacity: 1.0,
+        });
+        polylineArray.push(polyline);
+    } else if (data.steps !== undefined) {
+        for (const step of data.steps) {
+            let lineString = step.linestring.split(" ");
+            for (const crd of lineString) {
+                let point = new Tmapv3.LatLng(Number(crd.split(",")[1]), Number(crd.split(",")[0]));
+                arrayLine.push(point);
+            }
+        }
+        let color;
+        if (data.routeColor !== undefined) {
+            color = "#" + data.routeColor;
+        } else {
+            color = "#03A9F4";
+        }
+        let polyline = new Tmapv3.Polyline({
+            path: arrayLine,
+            strokeColor: color,
+            strokeWeight: 6,
+            map: map,
+            direction: true,
+            outline: true,
+            strokeOpacity: 1.0,
+        });
+        polylineArray.push(polyline);
+    }
+}
+
+function setMap(routesInfo) {
+    let maxLat = -90.0;
+    let maxLng = -180.0;
+    let minLat = 90.0;
+    let minLng = 180.0;
+
+    for (let index = 0; index < routesInfo?.legs?.length; index++) {
+        let item = routesInfo?.legs[index];
+        if (index === 0) {
+            addMarker("llStart", item.start.lon, item.start.lat, index.toString());
+        } else if (index === routesInfo?.legs?.length - 1) {
+            addMarker("llEnd", item.end.lon, item.end.lat, index.toString());
+        }
+        if (maxLat < item.start.lat) maxLat = item.start.lat;
+        if (maxLat < item.end.lat) maxLat = item.end.lat;
+        if (maxLng < item.start.lon) maxLng = item.start.lon;
+        if (maxLng < item.end.lon) maxLng = item.end.lon;
+
+        if (minLat > item.start.lat) minLat = item.start.lat;
+        if (minLat > item.end.lat) minLat = item.end.lat;
+        if (minLng > item.start.lon) minLng = item.start.lon;
+        if (minLng > item.end.lon) minLng = item.end.lon;
+
+        drawData(item);
+    }
+
+    console.log(maxLat, maxLng);
+    console.log(minLat, minLng);
+    let bounds = new Tmapv3.LatLngBounds();
+    bounds.extend(new Tmapv3.LatLng(maxLat, maxLng));
+    bounds.extend(new Tmapv3.LatLng(minLat, minLng));
+    map.fitBounds(bounds, 50);
 }
 
 function Detail() {
@@ -67,19 +179,13 @@ function Detail() {
     // 누적시간
 
     useEffect(() => {
-        if (document.querySelector(`script[src="https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20230906"]`)) return;
-        /*
+        const url = "https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20231206";
+        if (document.querySelector(`script[src=url]`)) return;
         const script = document.createElement("script");
-        script.src = `https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${process.env.REACT_APP_TMAP_API_KEY}`;
+        script.src = url;
         script.async = true;
         script.addEventListener("load", initTmap);
         document.body.appendChild(script);
-         */
-        const script2 = document.createElement("script");
-        script2.src = `https://toptmaptile2.tmap.co.kr/scriptSDKV3/tmapjs3.min.js?version=20230906`;
-        script2.async = true;
-        script2.addEventListener("load", initTmap);
-        document.body.appendChild(script2);
     }, []);
 
     const initGAPI = async () => {
@@ -89,19 +195,17 @@ function Detail() {
             gapi.auth2.init({
                 client_id: process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID,
             });
-            console.log("??");
             await gapi.client.load(
                 "https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest"
             );
+            const color_response = await gapi.client.calendar.colors.get({});
             const event_response = await gapi.client.calendar.events.get({
                 calendarId: calendarId, // query에서 받아온 calendar_id 넣어주기
                 eventId: eventId, // query에서 받아온 event_id 받아주기
             });
-            console.log("??");
             const calendar_response = await gapi.client.calendar.calendarList.get({
                 calendarId: calendarId,
             });
-            setEventResponse(event_response.result);
             const event = {
                 is_enabled: true,
                 event_id: event_response.result.id,
@@ -112,18 +216,16 @@ function Detail() {
                 startTimeZone: event_response.result.start.timeZone,
                 endDate: event_response.result.end.dateTime,
                 endTimeZone: event_response.result.end.dateTime,
-                color: calendar_response.result.backgroundColor,
+                color: event_response.result.colorId !== undefined ? color_response.result.event[event_response.result.colorId].background : "#049be5",
                 eventLocation: event_response.result.location,
                 lat: 0.0,
                 lng: 0.0,
                 routes: "",
             };
 
+            document.title = event.title;
+
             const data = await select(event.calendar_id, event.event_id);
-            console.log(JSON.parse(data.data[0].routes).metaData.plan.itineraries[0]);
-            setRoutesInfo(
-                JSON.parse(data.data[0].routes).metaData.plan.itineraries[0]
-            );
             if (data.data.length === 0) {
                 // not on database
                 let geoUrl =
@@ -185,6 +287,10 @@ function Detail() {
                 event.lng = data.data[0].lng;
                 event.routes = data.data[0].routes;
             }
+
+            setEventResponse(event);
+            setRoutesInfo(JSON.parse(event.routes).metaData.plan.itineraries[0]);
+            setMap(JSON.parse(event.routes).metaData.plan.itineraries[0])
         } catch (err) {
             console.error("Error loading GAPI or fetching calendar list", err);
         }
@@ -194,51 +300,55 @@ function Detail() {
         initGAPI();
     }, []);
     console.log(
-        dayjs(eventResponse?.start?.dateTime).format("a") === "am"
+        (dayjs(eventResponse?.startDate).format("a") === "am"
             ? "오전 "
-            : "오후 " +
-            dayjs(eventResponse?.start?.dateTime)
-                .subtract(routesInfo?.totalTime / 60, "minute")
-                .format("h:mm")
+            : "오후 ") +
+        dayjs(eventResponse?.startDate)
+            .subtract(routesInfo?.totalTime / 60, "minute")
+            .format("h:mm")
     );
 
-    const startTime = dayjs(eventResponse?.start?.dateTime).subtract(
+    const startTime = dayjs(eventResponse?.startDate).subtract(
         routesInfo?.totalTime / 60 + parseInt(localStorage.getItem("ready_time")),
         "minute"
     );
-    let 누적시간 = [parseInt(localStorage.getItem("ready_time"))];
+    let accuTime = [parseInt(localStorage.getItem("ready_time"))];
     return (
         <>
-            <DetailHeader summary={eventResponse?.summary}/>
-            <div id={"map_div"}/>
-            {/*<TmapSection />*/}
+            <DetailHeader summary={eventResponse?.title}/>
+            <MapView>
+                <div id={"map_div"}/>
+            </MapView>
             <DetailInfo>
-                <DetailBasicInfo>
-                    <PlanTime>
-                        {dayjs(eventResponse?.start.dateTime).format("a") === "am"
-                            ? "오전"
-                            : "오후"}{" "}
-                        <span>{dayjs(eventResponse?.start.dateTime).format("h:mm")}</span>
-                    </PlanTime>
-                    <PlanSpace>{eventResponse?.location}</PlanSpace>
-                </DetailBasicInfo>
+                <DetailBasicGroup>
+                    <ColorBar color={eventResponse?.color}/>
+                    <DetailBasicInfo>
+                        <PlanTime>
+                            {dayjs(eventResponse?.startDate).format("a") === "am"
+                                ? "오전"
+                                : "오후"}{" "}
+                            <span>{dayjs(eventResponse?.startDate).format("h:mm")}</span>
+                        </PlanTime>
+                        <PlanSpace>{eventResponse?.eventLocation}</PlanSpace>
+                    </DetailBasicInfo>
+                </DetailBasicGroup>
 
                 <DetailGetDirections>
                     <PrepareItem
                         time={
-                            dayjs(eventResponse?.start?.dateTime).format("a") === "am"
+                            (startTime.format("a") === "am"
                                 ? "오전 "
-                                : "오후 " + startTime.format("h:mm")
+                                : "오후 ") + startTime.format("h:mm")
                         }
                     />
                     {routesInfo?.legs?.map((item, idx) => {
-                        누적시간.push(Math.floor(item.sectionTime / 60));
+                        accuTime.push(Math.floor(item.sectionTime / 60));
                         if (item.mode === "BUS") {
                             return (
                                 <BusItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
@@ -248,7 +358,7 @@ function Detail() {
                                 <WalkItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
@@ -258,7 +368,7 @@ function Detail() {
                                 <SubwayItem
                                     item={item}
                                     startTime={startTime}
-                                    accumulateTime={누적시간
+                                    accumulateTime={accuTime
                                         .slice(0, idx + 1)
                                         .reduce((acc, currentValue) => acc + currentValue, 0)}
                                 />
@@ -280,13 +390,26 @@ function Detail() {
     );
 }
 
+const MapView = styled.div`
+  width: 100%;
+  height: 400px;
+  border-radius: 16px;
+  background-color: darkgrey;
+  overflow: hidden;
+`;
+
 const DetailInfo = styled.div`
   display: flex;
   margin-top: 30px;
 `;
 
+const DetailBasicGroup = styled.div`
+  display: flex;
+  height: fit-content;
+`;
 const DetailBasicInfo = styled.div`
-  margin-left: 32px;
+  margin-left: 16px;
+  height: fit-content;
 `;
 
 const DetailGetDirections = styled.div`
@@ -301,6 +424,12 @@ const DetailGetDirections = styled.div`
   padding: 32px 0px;
   flex-direction: column;
   align-items: center;
+`;
+
+const ColorBar = styled.div`
+  width: 16px;
+  border-radius: 16px;
+  background-color: ${(props: any) => props.color};
 `;
 
 const PlanTime = styled.div`

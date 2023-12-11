@@ -41,6 +41,8 @@ function Settings() {
     initGAPI();
   }, []);
 
+  document.title = "설정";
+
   return (
     <>
       <SettingHeader />
