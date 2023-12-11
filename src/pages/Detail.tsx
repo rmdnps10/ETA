@@ -351,7 +351,8 @@ function Detail() {
             <Skeleton
               width={"16px"}
               height="80px"
-              style={{ alignSelf: "start" }}
+              animation="wave"
+              style={{ marginBottom: "10px" }}
             />
           )}
 

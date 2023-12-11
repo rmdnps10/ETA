@@ -5,9 +5,9 @@ import styled from "styled-components";
 function SkeletonDetail() {
   return (
     <SkeletonItem>
-      <Skeleton width="50px" />
-      <Skeleton width="250px" />
-      <Skeleton width="50px" height={"28px"} />
+      <Skeleton width="50px" animation="wave" />
+      <Skeleton width="250px" animation="wave" />
+      <Skeleton width="50px" height={"28px"} animation="wave" />
     </SkeletonItem>
   );
 }
