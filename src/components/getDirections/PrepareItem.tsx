@@ -29,6 +29,7 @@ export const ItemLabel = styled.div`
   color: #000;
   font-size: 16px;
   font-style: normal;
+  width: 250px;
   font-weight: 700;
   line-height: 28px;
 `;

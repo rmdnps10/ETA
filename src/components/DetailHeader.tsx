@@ -4,6 +4,7 @@ import backArrowIcon from "../assets/images/backArrow.svg";
 import mainIcon from "../assets/images/ETAIcon.svg";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { Skeleton } from "@mui/material";
 function DetailHeader({ summary }) {
   const navigate = useNavigate();
   return (
@@ -16,7 +17,11 @@ function DetailHeader({ summary }) {
       />
       <PlanInform>
         <Plan>{dayjs().format("MMMM DD, YYYY")}</Plan>
-        <Title>{summary ? summary : ""}</Title>
+        {summary ? (
+          <Title>{summary }</Title>
+        ) : (
+          <Skeleton animation="wave" width="400px" height={"30px"} />
+        )}
       </PlanInform>
       <MainIcon src={mainIcon} />
     </DetailHeaderWrapper>

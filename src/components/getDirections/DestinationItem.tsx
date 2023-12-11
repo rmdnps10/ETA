@@ -2,6 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { CheckIcon, ItemLabel, ItemTime, ItemWrapper } from "./PrepareItem";
 import flagIcon from "../../assets/images/flag.svg";
+import { Skeleton } from "@mui/material";
 function DestinationItem({ destination, startTime, accumulateTime }) {
   return (
     <ItemWrapper>
