@@ -256,13 +256,15 @@ function App() {
                         const preparedTime = Number(localStorage.getItem("ready_time"));
                         const totalTime = transportTime + preparedTime;
 
-                        let notification = makeNotifications(event.title, {
-                            body: `${timeToString(totalTime)} 전 ${event.eventLocation}`,
-                            icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDA3IB%2FbtsBCkVq3VA%2F21iqoYsKi4KRkqDFzmGEE1%2Fimg.png"
-                        }, `http://localhost:3000/detail?calendar_id=${event.calendar_id}&event_id=${event.event_id}`);
+                        if (event.is_enabled) {
+                            let notification = makeNotifications(event.title, {
+                                body: `${timeToString(totalTime)} 전 ${event.eventLocation}`,
+                                icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDA3IB%2FbtsBCkVq3VA%2F21iqoYsKi4KRkqDFzmGEE1%2Fimg.png"
+                            }, `http://localhost:3000/detail?calendar_id=${event.calendar_id}&event_id=${event.event_id}`);
 
-                        if (notification) {
-                            notification();
+                            if (notification) {
+                                notification();
+                            }
                         }
                     });
                     i++;
