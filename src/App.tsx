@@ -17,7 +17,7 @@ import axios from "axios";
 
 function insert(calendar_id: String, event_id: String, is_enabled: boolean, address: String, lat: number, lng: number, routes: String) {
     axios
-        .post(`http://${process.env.REACT_APP_DB_URL}/insert`, {
+        .post(`${process.env.REACT_APP_DB_URL}/insert`, {
             event_id: event_id,
             calendar_id: calendar_id,
             is_enabled: is_enabled,
@@ -37,7 +37,7 @@ function insert(calendar_id: String, event_id: String, is_enabled: boolean, addr
 async function select(calendar_id: String, event_id: String) {
     return axios
         .get(
-            `http://${process.env.REACT_APP_DB_URL}/list?calendar_id=${calendar_id}&event_id=${event_id}`,
+            `${process.env.REACT_APP_DB_URL}/list?calendar_id=${calendar_id}&event_id=${event_id}`,
             {}
         )
         .then((res) => {

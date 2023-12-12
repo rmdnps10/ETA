@@ -46,12 +46,10 @@ function Login() {
     authenticate().then(loadClient());
   };
 
-  console.log(process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID);
   gapi.load("client:auth2", function () {
     gapi.auth2.init({
       client_id: process.env.REACT_APP_GOOGLE_CLOUD_CLIENT_ID,
     });
-    console.log("auth2: " + gapi.auth2)
   });
 
   return (

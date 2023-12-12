@@ -23,7 +23,7 @@ function insert(
   routes: String
 ) {
   axios
-    .post(`http://${process.env.REACT_APP_DB_URL}/insert`, {
+    .post(`${process.env.REACT_APP_DB_URL}/insert`, {
       event_id: event_id,
       calendar_id: calendar_id,
       is_enabled: is_enabled,
