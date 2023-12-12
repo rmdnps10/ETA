@@ -349,21 +349,26 @@ function Detail() {
             <ColorBar color={eventResponse?.color} />
           ) : (
             <Skeleton
-              width={"16px"}
-              height="80px"
+              width={16}
+              height={50}
               animation="wave"
-              style={{ marginBottom: "10px" }}
+              variant={"rounded"}
+              style={{
+                marginTop: "10px",
+                marginBottom: "10px",
+                borderRadius: "16px"
+            }}
             />
           )}
 
           <DetailBasicInfo>
             <PlanTime>
-              {eventResponse?.startDate ? (
-                dayjs(eventResponse?.startDate).format("a") === "am" ? (
-                  "오전"
-                ) : (
-                  "오후 " + dayjs(eventResponse?.startDate).format("h:mm")
-                )
+              {/*{ eventResponse?.startDate ? (): () }*/}
+
+              { eventResponse?.startDate ? (
+                  <div> {dayjs(eventResponse?.startDate).format("a") === "am" ? "오전" : "오후"}{" "}
+                    <span>{dayjs(eventResponse?.startDate).format("h:mm")}</span>
+                  </div>
               ) : (
                 <Skeleton width={"100px"} height={"40px"} animation="wave" />
               )}
