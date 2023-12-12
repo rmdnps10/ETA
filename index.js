@@ -11,8 +11,8 @@ const app = express();
 const PORT = process.env.port || 8000;
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
+  host: "svc.sel4.cloudtype.app",
+  port: 32662,
   password: "mypassword",
   database: "Events",
 });
@@ -112,7 +112,7 @@ app.post("/update", jsonParser, (req, res) => {
   let lat = req.body.lat;
   let lng = req.body.lng;
   let routes = req.body.routes;
-  
+
 
   console.log(`UPDATE : ${event_id}`);
 
@@ -127,14 +127,6 @@ app.post("/update", jsonParser, (req, res) => {
   );
 });
 
-async function doSomething() {}
-
-schedule.scheduleJob("30 * * * * *", async () => {
-  doSomething();
-});
-
-doSomething();
-
-app.listen(PORT, () => {
+app.listen(() => {
   console.log(`running on port ${PORT}`);
 });

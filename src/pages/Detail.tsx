@@ -27,7 +27,7 @@ function insert(
   routes: String
 ) {
   axios
-    .post("http://localhost:8000/insert", {
+    .post(`http://${process.env.REACT_APP_DB_URL}/insert`, {
       event_id: event_id,
       calendar_id: calendar_id,
       is_enabled: is_enabled,
@@ -47,7 +47,7 @@ function insert(
 async function select(calendar_id: String, event_id: String) {
   return axios
     .get(
-      `http://localhost:8000/list?calendar_id=${calendar_id}&event_id=${event_id}`,
+      `http://${process.env.REACT_APP_DB_URL}/list?calendar_id=${calendar_id}&event_id=${event_id}`,
       {}
     )
     .then((res) => {
