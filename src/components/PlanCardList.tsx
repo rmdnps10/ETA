@@ -12,7 +12,7 @@ import { Skeleton } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 
 let events = [];
-
+axios.defaults.withCredentials = true;
 function insert(
   calendar_id: String,
   event_id: String,
