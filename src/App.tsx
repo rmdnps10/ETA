@@ -6,7 +6,7 @@ import theme from "./style/theme";
 import {styled} from "styled-components";
 import {RecoilRoot} from "recoil";
 import React, {useEffect} from "react";
-import schedule from "node-schedule";
+// import schedule from "node-schedule";
 // import { Cron } from 'react-js-cron';
 // import { cron } from 'node-cron';
 // import { CronJob } from 'cron';
@@ -85,7 +85,7 @@ function App() {
     const date = new Date();
     date.setSeconds(date.getSeconds() + 5);
     // schedule.scheduleJob(date, async () => {
-    schedule.scheduleJob('* 5 0 * * *', async () => {
+    // schedule.scheduleJob('* 5 0 * * *', async () => {
 
         let events = [];
         const initGAPI = async () => {
@@ -249,27 +249,27 @@ function App() {
                     date.setHours(startDate.getHours(), startDate.getMinutes(), startDate.getSeconds());
                     console.log(date);
                     // date.setSeconds(date.getSeconds() + i * 10);
-                    schedule.scheduleJob(date, () => {
-                        const parsedData = JSON.parse(event.routes).metaData.plan.itineraries;
-                        const transportTime = Math.round(parsedData[0].totalTime / 60);
-                        const preparedTime = Number(localStorage.getItem("ready_time"));
-                        const totalTime = transportTime + preparedTime;
-
-                        if (event.is_enabled) {
-                            let notification = makeNotifications(event.title, {
-                                body: `${timeToString(totalTime)} 전 ${event.eventLocation}`,
-                                icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDA3IB%2FbtsBCkVq3VA%2F21iqoYsKi4KRkqDFzmGEE1%2Fimg.png"
-                            }, `http://localhost:3000/detail?calendar_id=${event.calendar_id}&event_id=${event.event_id}`);
-
-                            if (notification) {
-                                notification();
-                            }
-                        }
-                    });
+                    // schedule.scheduleJob(date, () => {
+                    //     const parsedData = JSON.parse(event.routes).metaData.plan.itineraries;
+                    //     const transportTime = Math.round(parsedData[0].totalTime / 60);
+                    //     const preparedTime = Number(localStorage.getItem("ready_time"));
+                    //     const totalTime = transportTime + preparedTime;
+                    //
+                    //     if (event.is_enabled) {
+                    //         let notification = makeNotifications(event.title, {
+                    //             body: `${timeToString(totalTime)} 전 ${event.eventLocation}`,
+                    //             icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDA3IB%2FbtsBCkVq3VA%2F21iqoYsKi4KRkqDFzmGEE1%2Fimg.png"
+                    //         }, `http://localhost:3000/detail?calendar_id=${event.calendar_id}&event_id=${event.event_id}`);
+                    //
+                    //         if (notification) {
+                    //             notification();
+                    //         }
+                    //     }
+                    // });
                     i++;
                 }
             });
-    });
+    // });
 
     return (
         <>
