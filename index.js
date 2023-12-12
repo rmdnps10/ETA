@@ -2,7 +2,6 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const schedule = require("node-schedule");
 // const gapi = require("gapi-script");
 // import gapi from "gapi-script";
 // import sample_routes from "./src/test/sample_routes_req.json" assert { type: "json" };
