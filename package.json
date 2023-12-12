@@ -25,6 +25,7 @@
     "gapi-script": "^1.2.0",
     "google-auth-library": "^9.2.0",
     "googleapis": "^128.0.0",
+    "http-proxy-middleware": "^1.0.0",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.3",
     "node-schedule": "^2.1.1",
@@ -54,6 +55,7 @@
     "start-node": "node index.js",
     "dev": "nodemon index.js"
   },
+  "proxy": "https://port-0-eta-node-71t02clq29h4hj.sel4.cloudtype.app",
   "eslintConfig": {
     "extends": [
       "react-app",

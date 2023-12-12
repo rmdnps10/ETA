@@ -12,9 +12,14 @@ const PORT = process.env.port || 8000;
 const db = mysql.createPool({
   host: "svc.sel4.cloudtype.app",
   port: 32662,
+  user: "root",
   password: "mypassword",
   database: "Events",
 });
+
+// const db = mysql.createPool({
+//   host: "localhost", user: "root", password: "mypassword", database: "Events",
+// });
 
 db.getConnection((err, connection) => {
   if (err) throw err;
@@ -72,6 +77,7 @@ app.get("/list", (req, res) => {
     }
     query += " )";
   }
+  console.log(query);
 
   db.query(query, (err, result) => {
     res.send(result);

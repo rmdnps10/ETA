@@ -13,7 +13,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 let events = [];
 axios.defaults.withCredentials = true;
-function insert(
+export function insert(
   calendar_id: String,
   event_id: String,
   is_enabled: boolean,
@@ -23,7 +23,7 @@ function insert(
   routes: String
 ) {
   axios
-    .post(`${process.env.REACT_APP_DB_URL}/insert`, {
+    .post(`/database/insert`, {
       event_id: event_id,
       calendar_id: calendar_id,
       is_enabled: is_enabled,
@@ -44,12 +44,16 @@ async function select(calendar_id: String, event_id: String) {
 
   return axios
     .get(
-      `https://${process.env.REACT_APP_DB_URL}/list?calendar_id=${calendar_id}&event_id=${event_id}`,
+      `database/list?calendar_id=${calendar_id}&event_id=${event_id}`,
       {}
     )
     .then((res) => {
+      console.log(res);
       return res;
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
 }
 
 function PlanCardList() {
