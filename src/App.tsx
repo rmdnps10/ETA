@@ -245,6 +245,7 @@ function App() {
         initGAPI()
             .then((res) => {
                 let i = 0;
+                console.log("success: " + events);
                 for (const event of events) {
                     console.log(event);
                     const date = new Date();
