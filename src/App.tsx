@@ -127,7 +127,10 @@ function App() {
                             timeMin: timeMin.toISOString(),
                         });
 
-                        const event_data = event_response.result.items;
+                        const cancelled_data = event_response.result.items.filter(item => item.status === "cancelled").map((event: any) =>
+                            event.id.split("_") ? event.id.split("_")[0] : event.id
+                        );
+                        const event_data = event_response.result.items.filter(item => !cancelled_data.includes(item.id) && item.status !== "cancelled");
                         const color_data = color_response.result;
                         const event_list =
                             event_data?.map((event: any) => ({
@@ -243,7 +246,7 @@ function App() {
             .then((res) => {
                 let i = 0;
                 for (const event of events) {
-                    // console.log(event);
+                    console.log(event);
                     const date = new Date();
                     const startDate = new Date(event.startDate);
                     date.setHours(startDate.getHours(), startDate.getMinutes(), startDate.getSeconds());
