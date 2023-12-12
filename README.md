@@ -1,5 +1,3 @@
-
-  
 <div align="center">
   
 <img width="300" src="https://github.com/rmdnps10/ETA-client/assets/87219998/71608330-8e9d-4deb-8193-8422070676c6">
@@ -77,7 +75,7 @@ npm start
 
 <br/>
 
-**🗒️ 일정 확인**
+**🗒️ 일정 확인 기능**
 
 - **오늘**을 기준으로 구글 캘린더 상에 등록되어 있는 일정을 한눈에 볼 수 있습니다. 
 - `설정페이지`에서 유저가 등록한 home에서부터 구글 캘린더에 등록된 장소까지의 길찾기 시간과 준비시간을 확인할 수 있습니다.
@@ -85,8 +83,8 @@ npm start
 -  일정 카드를 클릭하면 해당하는 `일정 상세페이지`로 이동합니다.
 
 **🔔 알림 기능** 
--  각 카드에 있는 토글 버튼 활성화에 따라 일정의 알림 기능 제공 여부를 선택할 수 있습니다.
--  카드 하단에 보이는 시간이 되었을 시, 출발 권고 알림이 오게 됩니다.
+-  각 일정 카드에 있는 토글 버튼의 활성화 여부에 따라 알림 기능 제공 여부를 선택할 수 있습니다.
+-  일정 카드 하단에 있는 출발 권고 시간이 다가오면, 알림이 오게 됩니다.
 <img width="370" alt="Untitled" src="https://github.com/rmdnps10/ETA-client/assets/87219998/cb0cc2ad-1183-4655-9674-a91b80fe3362">
 
 
@@ -127,7 +125,30 @@ npm start
 
 
 
+
+
 ## 디렉토리 구조 
+```
+📦src
+ ┣ 📂api
+ ┣ 📂assets
+ ┃ ┣ 📂fonts
+ ┃ ┣ 📂images
+ ┣ 📂components
+ ┃ ┣ 📂getDirections
+ ┃ ┣ 📂modal
+ ┣ 📂hooks
+ ┣ 📂pages
+ ┣ 📂state
+ ┣ 📂style
+ ┣ 📂test
+ ┣ 📂utils
+⚒️ index.js
+⚒️ tsconfig.json
+⚒️ package.json
+⚒️ package-lock.json
+
+```
 
 
 
