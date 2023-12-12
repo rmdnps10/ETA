@@ -17,7 +17,7 @@ function PlanCard({item}: PlanCardProps) {
     const [isTurnOn, setIsTurnOn] = useState(item.is_enabled);
     const toggleIsEnabled = async () => {
         await axios
-            .post(`//${process.env.REACT_APP_DB_URL}/insert/update`, {
+            .post(`//${process.env.REACT_APP_DB_URL}/update`, {
                 event_id: item?.event_id,
                 calendar_id: item?.calendar_id,
                 is_enabled: !isTurnOn,
