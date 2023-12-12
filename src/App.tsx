@@ -77,7 +77,7 @@ function makeNotifications(title: string, options: NotificationOptions, link: st
 function App() {
     const timeToString = (minute: number) => {
         let arr = [];
-        if (minute / 60 >= 1) arr.push(Math.round(minute / 60) + "시간");
+        if (minute / 60 >= 1) arr.push(Math.floor(minute / 60) + "시간");
         if (minute % 60 !== 0) arr.push(minute % 60 + "분");
         return arr.join(" ");
     };

@@ -45,14 +45,14 @@ function PlanCard({item}: PlanCardProps) {
     };
     const timeToString = (minute: number) => {
         let arr = [];
-        if (minute / 60 >= 1) arr.push(Math.round(minute / 60) + "시간");
+        if (minute / 60 >= 1) arr.push(Math.floor(minute / 60) + "시간");
         if (minute % 60 !== 0) arr.push(minute % 60 + "분");
         return arr.join(" ");
     };
     const parsedData = JSON.parse(item.routes).metaData.plan.itineraries;
     // 대중교통시간 (분)
 
-    const transportTime = Math.round(parsedData[0].totalTime / 60);
+    const transportTime = Math.floor(parsedData[0].totalTime / 60);
     // 준비시간 (분)
     const preparedTime = Number(localStorage.getItem("ready_time"));
     // 대중교통시간 + 준비시간 (분))
