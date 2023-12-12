@@ -47,9 +47,23 @@ function Main() {
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }
 
-    console.log(localStorage.getItem("ready_time"));
     if (localStorage.getItem("ready_time") === null) {
         localStorage.setItem("ready_time", "60");
+    }
+
+    if (Notification.permission !== "granted") {
+        let options =  {
+            body: "이렇게 알림을 보낼게요🤓",
+            icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDA3IB%2FbtsBCkVq3VA%2F21iqoYsKi4KRkqDFzmGEE1%2Fimg.png"
+        };
+
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                new Notification("알림 허용됨", options);
+            } else {
+                return;
+            }
+        });
     }
 
     return (
