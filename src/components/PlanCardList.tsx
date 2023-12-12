@@ -23,7 +23,7 @@ export function insert(
   routes: String
 ) {
   axios
-    .post(`/database/insert`, {
+    .post(`database/insert`, {
       event_id: event_id,
       calendar_id: calendar_id,
       is_enabled: is_enabled,
