@@ -102,6 +102,8 @@ function App() {
                 const response = await gapi.client.calendar.calendarList.list({});
                 const data = response.result.items;
 
+                console.log("test 01");
+
                 const updatedCalendarList =
                     data?.map((calendar: any) => ({
                         id: calendar.id,
@@ -109,6 +111,7 @@ function App() {
                         color: calendar.backgroundColor,
                     })) || [];
 
+                console.log("test 02");
                 for (const calendar of updatedCalendarList) {
                     if (localStorage.getItem(calendar.id) !== "false") {
                         // item false는 불러오지 않음
@@ -150,6 +153,7 @@ function App() {
                                 routes: "",
                             })) || [];
 
+                        console.log("test 03");
                         for (const event of event_list) {
                             const data = await select(event.calendar_id, event.event_id);
                             let startTime = new Date();
@@ -221,10 +225,12 @@ function App() {
                                 event.is_enabled = data.data[0].is_enabled;
                             }
                         }
+                        console.log("test 04");
 
                         events = events.concat(event_list);
                     }
                 }
+                console.log("test 05");
                 events.sort((v1, v2) => {
                     let today = new Date();
                     let date1 = new Date(v1.startDate);
@@ -236,7 +242,7 @@ function App() {
                     return date1 - date2;
                 });
 
-
+                console.log("test 06");
             } catch (err) {
                 console.error("App.tsx Error loading GAPI or fetching calendar list", err);
             }
