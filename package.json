@@ -47,7 +47,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "run-scripts start",
+    "start": "run-script start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
