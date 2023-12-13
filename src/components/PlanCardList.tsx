@@ -245,36 +245,240 @@ function PlanCardList() {
                     <PlanCardWrapper>
                         <ColorSection/>
                         <ContentContainer>
-                            <Skeleton animation="wave" height="80px"/>
-                            <Skeleton animation="wave" height="60px"/>
-                            <Skeleton animation="wave" height="120px"/>
+                            <Skeleton
+                                animation="wave"
+                                height="50px"
+                                style={{ marginTop: "20px" }}
+                            />
+
+                            <Skeleton
+                                animation="wave"
+                                width="180px"
+                                height="34px"
+                                style={{ marginTop: "19px" }}
+                            />
+                            <Skeleton
+                                animation="wave"
+                                height="25px"
+                                style={{ marginTop: "4px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px", marginTop: "28px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                />
+                                <Skeleton
+                                    animation="wave"
+                                    width="30px"
+                                    height="20px"
+                                    style={{ marginBottom: "2px" }}
+                                />
+                            </div>
+                            <Skeleton
+                                animation="wave"
+                                variant="rounded"
+                                width="4px"
+                                height="26px"
+                                style={{ marginLeft: "8px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginTop: "2px" }}
+                                />
+                                <Skeleton animation="wave" width="30px" height="20px" />
+                                <Skeleton
+                                    animation="wave"
+                                    width="100px"
+                                    height="20px"
+                                    style={{ marginLeft: "auto" }}
+                                />
+                            </div>
                         </ContentContainer>
                     </PlanCardWrapper>
                     <PlanCardWrapper>
                         {" "}
                         <ColorSection/>
                         <ContentContainer>
-                            <Skeleton animation="wave" height="80px"/>
-                            <Skeleton animation="wave" height="60px"/>
-                            <Skeleton animation="wave" height="120px"/>
+                            <Skeleton
+                                animation="wave"
+                                height="50px"
+                                style={{ marginTop: "20px" }}
+                            />
+
+                            <Skeleton
+                                animation="wave"
+                                width="180px"
+                                height="34px"
+                                style={{ marginTop: "19px" }}
+                            />
+                            <Skeleton
+                                animation="wave"
+                                height="25px"
+                                style={{ marginTop: "4px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px", marginTop: "28px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                />
+                                <Skeleton
+                                    animation="wave"
+                                    width="30px"
+                                    height="20px"
+                                    style={{ marginBottom: "2px" }}
+                                />
+                            </div>
+                            <Skeleton
+                                animation="wave"
+                                variant="rounded"
+                                width="4px"
+                                height="26px"
+                                style={{ marginLeft: "8px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginTop: "2px" }}
+                                />
+                                <Skeleton animation="wave" width="30px" height="20px" />
+                                <Skeleton
+                                    animation="wave"
+                                    width="100px"
+                                    height="20px"
+                                    style={{ marginLeft: "auto" }}
+                                />
+                            </div>
                         </ContentContainer>
                     </PlanCardWrapper>
                     <PlanCardWrapper>
                         {" "}
                         <ColorSection/>
                         <ContentContainer>
-                            <Skeleton animation="wave" height="80px"/>
-                            <Skeleton animation="wave" height="60px"/>
-                            <Skeleton animation="wave" height="120px"/>
+                            <Skeleton
+                                animation="wave"
+                                height="50px"
+                                style={{ marginTop: "20px" }}
+                            />
+
+                            <Skeleton
+                                animation="wave"
+                                width="180px"
+                                height="34px"
+                                style={{ marginTop: "19px" }}
+                            />
+                            <Skeleton
+                                animation="wave"
+                                height="25px"
+                                style={{ marginTop: "4px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px", marginTop: "28px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                />
+                                <Skeleton
+                                    animation="wave"
+                                    width="30px"
+                                    height="20px"
+                                    style={{ marginBottom: "2px" }}
+                                />
+                            </div>
+                            <Skeleton
+                                animation="wave"
+                                variant="rounded"
+                                width="4px"
+                                height="26px"
+                                style={{ marginLeft: "8px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginTop: "2px" }}
+                                />
+                                <Skeleton animation="wave" width="30px" height="20px" />
+                                <Skeleton
+                                    animation="wave"
+                                    width="100px"
+                                    height="20px"
+                                    style={{ marginLeft: "auto" }}
+                                />
+                            </div>
                         </ContentContainer>
                     </PlanCardWrapper>
                     <PlanCardWrapper>
                         {" "}
                         <ColorSection/>
                         <ContentContainer>
-                            <Skeleton animation="wave" height="80px"/>
-                            <Skeleton animation="wave" height="60px"/>
-                            <Skeleton animation="wave" height="120px"/>
+                            <Skeleton
+                                animation="wave"
+                                height="50px"
+                                style={{ marginTop: "20px" }}
+                            />
+
+                            <Skeleton
+                                animation="wave"
+                                width="180px"
+                                height="34px"
+                                style={{ marginTop: "19px" }}
+                            />
+                            <Skeleton
+                                animation="wave"
+                                height="25px"
+                                style={{ marginTop: "4px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px", marginTop: "28px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                />
+                                <Skeleton
+                                    animation="wave"
+                                    width="30px"
+                                    height="20px"
+                                    style={{ marginBottom: "2px" }}
+                                />
+                            </div>
+                            <Skeleton
+                                animation="wave"
+                                variant="rounded"
+                                width="4px"
+                                height="26px"
+                                style={{ marginLeft: "8px" }}
+                            />
+                            <div style={{ display: "flex", gap: "5px" }}>
+                                <Skeleton
+                                    animation="wave"
+                                    variant="circular"
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginTop: "2px" }}
+                                />
+                                <Skeleton animation="wave" width="30px" height="20px" />
+                                <Skeleton
+                                    animation="wave"
+                                    width="100px"
+                                    height="20px"
+                                    style={{ marginLeft: "auto" }}
+                                />
+                            </div>
                         </ContentContainer>
                     </PlanCardWrapper>
                 </>
